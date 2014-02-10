@@ -46,10 +46,10 @@ public final class R {
         public static final int scrollView1=0x7f090003;
         public static final int textViewComment=0x7f090002;
         public static final int textViewCreatedOn=0x7f09000b;
+        public static final int textViewInfoRepeat=0x7f09000d;
         public static final int textViewLocation=0x7f090009;
         public static final int textViewOccurence=0x7f090006;
         public static final int textViewPlaceTitle=0x7f090008;
-        public static final int textViewRepeating=0x7f09000d;
         public static final int textViewTime1=0x7f09000c;
         public static final int toggleButton1=0x7f090007;
     }
