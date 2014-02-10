@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="listview_background_color">#FFFFFF</color>
+    <color name="background_color">#CCCCCC</color>
+    <color name="text_color">#0E593B</color>
+   
+    <color name="input_text_background">#FFFFFF</color>
+    <color name="error_text_color">#FF0000</color>   
+    <color name="title_text_color">#FFFFFF</color>
+    <color name="windowtitle_background_end_color">#138054</color>
+    <color name="windowtitle_background_start_color">#09472E</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="button_background_color">#138054</color>
+    <color name="countdown_background_color">#ebfbfb</color>
+</resources>
