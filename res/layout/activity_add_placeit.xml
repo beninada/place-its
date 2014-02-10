@@ -41,27 +41,22 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/textViewPlaceItTitle"
+                android:id="@+id/editPlaceItTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Title"
-                android:textStyle="bold" >
-
-                <requestFocus />
-            </EditText>
+                android:hint="@string/EditPlaceItTitle" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <EditText
-                    android:id="@+id/editText1"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textViewOccurence"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="30"
-                    android:ems="10" />
+                    android:layout_weight="3"
+                    android:text="@string/textViewOccurence" />
 
                 <ToggleButton
                     android:id="@+id/toggleButton1"
