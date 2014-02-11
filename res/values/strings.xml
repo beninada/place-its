@@ -7,5 +7,6 @@
     <string name="textViewCreatedOn">Created On</string>
     <string name="EditPlaceItTitle">Title</string>
     <string name="textViewOccurence">Repeating</string>
+    <string name="textViewNotes">Notes</string>
 
 </resources>
