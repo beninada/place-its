@@ -1,14 +1,16 @@
 package com.wi14.team5.place_its;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
 
-public class AddPlaceitActivity extends Activity {
+public class RecurringPlaceitActivity extends Activity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_placeit);
-		
-		
+		setContentView(R.layout.activity_recurring_placeit);
 	}
+
+
 }

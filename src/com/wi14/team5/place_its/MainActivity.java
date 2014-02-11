@@ -14,9 +14,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		final Intent i = new Intent(MainActivity.this, MoreInfoActivity.class);
+		final Intent i = new Intent(MainActivity.this, RecurringPlaceitActivity.class);
 
-	    final Button button = (Button) findViewById(R.id.button1);
+	    final Button button = (Button) findViewById(R.id.buttonCancel);
 	    
 	    button.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View v) {

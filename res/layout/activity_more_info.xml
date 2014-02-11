@@ -116,21 +116,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:minLines="0"
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="TextView" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewInfoRepeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
-                android:padding="10dp"
-                android:text="TextView"
-                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 
