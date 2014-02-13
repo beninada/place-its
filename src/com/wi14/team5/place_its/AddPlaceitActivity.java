@@ -146,9 +146,12 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	}
 	
 	public void onSubmit(View view) {
-		Toast.makeText(AddPlaceitActivity.this, "Tag added!", Toast.LENGTH_SHORT).show();
+		Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
 		added.setTitle(title.getText().toString());
 		added.setSnippet(notes.getText().toString());
+		
+		//TODO
+		//package everything...store in some type of structure and pass to back end
 	}
 	
 	public void onRecurringClick(View view) {
