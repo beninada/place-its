@@ -14,13 +14,12 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		final Intent i = new Intent(MainActivity.this, RecurringPlaceitActivity.class);
+		final Intent i = new Intent(MainActivity.this, AddPlaceitActivity.class);
 
 	    final Button button = (Button) findViewById(R.id.buttonCancel);
 	    
 	    button.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View v) {
-	        	System.out.println("hi");
 	            startActivity(i);
 	        }
 	    });
