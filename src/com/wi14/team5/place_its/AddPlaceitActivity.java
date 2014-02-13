@@ -1,5 +1,9 @@
 package com.wi14.team5.place_its;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
@@ -13,12 +17,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -30,11 +37,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class AddPlaceitActivity extends Activity implements OnMapClickListener, OnCheckedChangeListener {
+public class AddPlaceitActivity extends Activity implements OnMapClickListener, OnCheckedChangeListener, OnFocusChangeListener {
 	
 	private GoogleMap mMap;
 	private EditText title;
 	private EditText notes;
+	private EditText address;
 	private boolean placeitAdded;
 	private boolean isRecurring;
 	private Marker added;
@@ -55,6 +63,8 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 		//mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
 		title = (EditText) findViewById(R.id.editPlaceItTitle);
 		notes = (EditText) findViewById(R.id.editTextNotes);
+		address = (EditText) findViewById(R.id.editPlaceitAddress);
+		address.setOnFocusChangeListener(this);
 		centerMapOnMyLocation();
 		placeitAdded = false; //didn't add yet
 		recurring = new Intent(AddPlaceitActivity.this, RecurringPlaceitActivity.class);
@@ -75,6 +85,38 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			//LatLng pos = added.getPosition();
 			if (title.getText().toString().length() != 0) {
 				added.showInfoWindow();
+			}
+			
+			Geocoder geo = new Geocoder(this, Locale.getDefault());
+			try {
+				List<Address> addresses = geo.getFromLocation(added.getPosition().latitude, 
+															  added.getPosition().longitude,
+															  5);
+				if (addresses.size() > 0) {
+					if (addresses.get(0).getLocality() != null) {
+						if (addresses.get(0).getSubThoroughfare() != null)
+							address.setText(addresses.get(0).getSubThoroughfare() + " " + 
+											addresses.get(0).getThoroughfare() + ", " + 
+											addresses.get(0).getLocality());
+						else {
+							address.setText(addresses.get(0).getThoroughfare() + ", " + 
+											addresses.get(0).getLocality());							
+						}
+					}
+					else {
+						if (addresses.get(0).getSubThoroughfare() != null)
+							address.setText(addresses.get(0).getSubThoroughfare() + " " + 
+											addresses.get(0).getThoroughfare() + ", " + 
+											addresses.get(0).getCountryName());
+						else {
+							address.setText(addresses.get(0).getThoroughfare() + ", " + 
+											addresses.get(0).getCountryName());							
+						}
+					}
+				}
+			}
+			catch (IOException e) {
+				//something didn't work
 			}
 			
 	}
@@ -199,6 +241,38 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	   
 		firstRadioGroup.clearCheck();
 	    secondRadioGroup.clearCheck();		
+	}
+
+	@Override
+	public void onFocusChange(View view, boolean arg1) {
+		//LatLng pos = added.getPosition();
+		Geocoder geo = new Geocoder(this, Locale.getDefault());
+
+		String userAddress = address.getText().toString();
+		try {
+			List<Address> addresses = geo.getFromLocationName(userAddress, 5);
+			if (addresses.size() > 0) {
+				LatLng move = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+				mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+						new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude()), 16));
+				
+				if (added != null) added.remove();
+				
+				added = mMap.addMarker(new MarkerOptions() 
+						.position(move)
+						.title(title.getText().toString())
+						.snippet(notes.getText().toString()));	
+				
+				//LatLng pos = added.getPosition();
+				if (title.getText().toString().length() != 0) {
+					added.showInfoWindow();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 	
 }

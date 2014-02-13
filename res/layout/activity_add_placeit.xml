@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Address"
+                android:hint="Address (optional)"
                 android:inputType="textPostalAddress"
                 android:longClickable="true"
                 android:maxLines="2"
