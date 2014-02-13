@@ -14,16 +14,30 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		final Intent i = new Intent(MainActivity.this, AddPlaceitActivity.class);
+		final Intent addIntent = new Intent(MainActivity.this, AddPlaceitActivity.class);
+		final Intent moreIntent = new Intent(MainActivity.this, MoreInfoActivity.class);
+		final Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
 
-	    final Button button = (Button) findViewById(R.id.buttonCancel);
+	    final Button add = (Button) findViewById(R.id.buttonCancel);
+	    final Button more = (Button) findViewById(R.id.buttonMore);
+	    final Button map = (Button) findViewById(R.id.buttonMap);
+
 	    
-	    button.setOnClickListener(new View.OnClickListener() {
+	    add.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View v) {
-	            startActivity(i);
+	            startActivity(addIntent);
 	        }
 	    });
-	    
+	    more.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View v) {
+	            startActivity(moreIntent);
+	        }
+	    });
+	    map.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View v) {
+	            startActivity(mapIntent);
+	        }
+	    });
 	}
 	
 	public void buttonClick(View v) {

@@ -46,7 +46,8 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	private boolean placeitAdded;
 	private boolean isRecurring;
 	private Marker added;
-	Intent recurring;
+	private Intent recurring;
+	private Button cancelButton;
 	Dialog d;
 	RadioGroup firstRadioGroup, secondRadioGroup;
 	RadioButton radioWeekly, radioDaily, radioTest;
@@ -68,8 +69,16 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 		centerMapOnMyLocation();
 		placeitAdded = false; //didn't add yet
 		recurring = new Intent(AddPlaceitActivity.this, RecurringPlaceitActivity.class);
+		cancelButton = (Button) findViewById(R.id.buttonCancel);
+	    cancelButton.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View v) {
+	            Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
+	            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
+	            startActivity(intent);
+	        }
+	    });
 		isRecurring = false;	
-
+		
 
 	}
 
@@ -146,10 +155,21 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	}
 	
 	public void onSubmit(View view) {
-		Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
-		added.setTitle(title.getText().toString());
-		added.setSnippet(notes.getText().toString());
-		
+		if (added == null) {
+			Toast.makeText(AddPlaceitActivity.this, "Please select a location", Toast.LENGTH_LONG).show();
+
+		}
+		else if (title.getText().length() != 0) {
+			Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
+			added.setTitle(title.getText().toString());
+			
+			if (notes.getText().length() != 0)
+				added.setSnippet(notes.getText().toString());
+			else added.setSnippet("");
+		}
+		else {
+			Toast.makeText(AddPlaceitActivity.this, "Place-it must have a title", Toast.LENGTH_LONG).show();
+		}
 		//TODO
 		//package everything...store in some type of structure and pass to back end
 	}
