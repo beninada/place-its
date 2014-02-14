@@ -39,19 +39,25 @@
                 android:hint="@string/EditPlaceItTitle"
                 android:inputType="textShortMessage"
                 android:maxLines="1"
-                android:minLines="1" />
+                android:minLines="1" >
+
+                <requestFocus />
+
+                <requestFocus />
+
+            </EditText>
 
             <EditText
                 android:id="@+id/editPlaceitAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="Address (optional)"
                 android:inputType="textPostalAddress"
                 android:longClickable="true"
                 android:maxLines="2"
                 android:minLines="1" >
 
-                <requestFocus />
             </EditText>
 
             <LinearLayout
@@ -70,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.29"
+                    android:onClick="onRecurringClick"
                     android:text="ToggleButton" />
 
             </LinearLayout>
@@ -108,6 +115,7 @@
                     android:layout_weight="50"
                     android:gravity="center"
                     android:minWidth="80dp"
+                    android:onClick="onSubmit"
                     android:padding="10dp"
                     android:text="@string/buttonSubmit" />
 
