@@ -21,5 +21,6 @@
     <string name="radioDaily">Daily</string>
     <string name="radioTest">Test mode</string>
     <string name="buttonOk">OK</string>
+    <string name="dummy_text">La la la</string>
 
 </resources>

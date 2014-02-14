@@ -234,45 +234,44 @@ containing a value of this type.
     public static final class id {
         public static final int LinearLayout1=0x7f050005;
         public static final int LinearLayoutInfo=0x7f050008;
-        public static final int LinearLayoutTime=0x7f050016;
-        public static final int action_settings=0x7f050029;
+        public static final int LinearLayoutTime=0x7f050014;
+        public static final int action_settings=0x7f050028;
         public static final int buttonCancel=0x7f050010;
-        public static final int buttonFri=0x7f050022;
-        public static final int buttonMap=0x7f050013;
-        public static final int buttonMon=0x7f05001e;
-        public static final int buttonMore=0x7f050012;
-        public static final int buttonRecurringCancel=0x7f050028;
-        public static final int buttonRecurringOK=0x7f050027;
-        public static final int buttonSat=0x7f050023;
+        public static final int buttonFri=0x7f050021;
+        public static final int buttonMon=0x7f05001d;
+        public static final int buttonRecurringCancel=0x7f050027;
+        public static final int buttonRecurringOK=0x7f050026;
+        public static final int buttonSat=0x7f050022;
         public static final int buttonSubmit=0x7f05000f;
-        public static final int buttonSun=0x7f05001d;
-        public static final int buttonThurs=0x7f050021;
-        public static final int buttonTue=0x7f05001f;
-        public static final int buttonWed=0x7f050020;
+        public static final int buttonSun=0x7f05001c;
+        public static final int buttonThurs=0x7f050020;
+        public static final int buttonTue=0x7f05001e;
+        public static final int buttonWed=0x7f05001f;
         public static final int editPlaceItTitle=0x7f050009;
         public static final int editPlaceitAddress=0x7f05000a;
         public static final int editTextNotes=0x7f05000e;
-        public static final int firstRadioGroup=0x7f05001b;
+        public static final int firstRadioGroup=0x7f05001a;
         public static final int hybrid=0x7f050004;
         public static final int map=0x7f050006;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int radioButtonDaily=0x7f050025;
-        public static final int radioButtonTest=0x7f050026;
-        public static final int radioButtonWeekly=0x7f05001c;
+        public static final int pager=0x7f050011;
+        public static final int radioButtonDaily=0x7f050024;
+        public static final int radioButtonTest=0x7f050025;
+        public static final int radioButtonWeekly=0x7f05001b;
         public static final int satellite=0x7f050002;
         public static final int scrollView1=0x7f050007;
-        public static final int secondRadioGroup=0x7f050024;
+        public static final int secondRadioGroup=0x7f050023;
         public static final int terrain=0x7f050003;
         public static final int textViewAddNotes=0x7f05000d;
-        public static final int textViewCreatedOn=0x7f050017;
-        public static final int textViewInfoRepeat=0x7f050019;
-        public static final int textViewLocation=0x7f050015;
-        public static final int textViewNotes=0x7f050011;
-        public static final int textViewNotesContent=0x7f05001a;
+        public static final int textViewCreatedOn=0x7f050015;
+        public static final int textViewInfoRepeat=0x7f050017;
+        public static final int textViewLocation=0x7f050013;
+        public static final int textViewNotes=0x7f050018;
+        public static final int textViewNotesContent=0x7f050019;
         public static final int textViewOccurence=0x7f05000b;
-        public static final int textViewPlaceTitle=0x7f050014;
-        public static final int textViewTime1=0x7f050018;
+        public static final int textViewPlaceTitle=0x7f050012;
+        public static final int textViewTime1=0x7f050016;
         public static final int toggleButton1=0x7f05000c;
     }
     public static final class integer {
@@ -283,6 +282,7 @@ containing a value of this type.
         public static final int activity_main=0x7f030001;
         public static final int activity_more_info=0x7f030002;
         public static final int activity_recurring_placeit=0x7f030003;
+        public static final int fragment_list_dummy=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
@@ -394,6 +394,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060013;
+        public static final int dummy_text=0x7f06002e;
         public static final int hello_world=0x7f06001c;
         public static final int radioDaily=0x7f06002b;
         public static final int radioTest=0x7f06002c;
