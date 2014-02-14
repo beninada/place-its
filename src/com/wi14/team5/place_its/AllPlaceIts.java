@@ -1,7 +1,6 @@
 package com.wi14.team5.place_its;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 //Instantiated in Main Activity
 public class AllPlaceIts { //TODO implement Subject (for GPS)

@@ -1,5 +1,7 @@
 package com.wi14.team5.place_its.lists;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -12,38 +14,21 @@ import android.widget.ArrayAdapter;
  */
 public class PlaceitListFragment extends ListFragment {
 
-	public static final String ARG_SECTION_NUMBER = "section_number";
-
-	private String[] todoListItems;
-	private String[] inprogressListItems;
-	private String[] completedListItems;
+	public static final String LIST_ITEMS = "list_items";
+	private ArrayList<String> listItems;
 
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        todoListItems = new String[] {
-                "Pick up book", "Buy a new pencil", "Water flowers",
-                "Finish app", "Turn in CSE 110 homework", "Deliver pizza",
-                "Drink das boot", "Wash car"
-        };
-        inprogressListItems = new String[] {
-                "Pick up book", "Buy a new pencil", "Water flowers",
-                "Finish app", "Turn in CSE 110 homework", "Deliver pizza",
-                "Drink das boot", "Wash car"
-        };
-        completedListItems = new String[] {
-                "Pick up book", "Buy a new pencil", "Water flowers",
-                "Finish app", "Turn in CSE 110 homework", "Deliver pizza",
-                "Drink das boot", "Wash car"
-        };
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		listItems = new ArrayList<String>();
+    	listItems.add("foo");
         ArrayAdapter<String> adapter =
         				new ArrayAdapter<String>(
                         inflater.getContext(), android.R.layout.simple_list_item_1,
-                        todoListItems);
+                        listItems);
 
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);

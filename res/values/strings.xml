@@ -22,5 +22,7 @@
     <string name="radioTest">Test mode</string>
     <string name="buttonOk">OK</string>
     <string name="dummy_text">La la la</string>
+    <string name="action_new">New Place-it</string>
+    <string name="action_map">View map</string>
 
 </resources>

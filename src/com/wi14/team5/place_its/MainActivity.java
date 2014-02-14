@@ -7,6 +7,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 /**
  * Fragment Activity that contains the three lists: To Do, In Progress, and
@@ -16,14 +18,12 @@ import android.support.v4.view.ViewPager;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	/**
-	 * A {@link android.support.v4.view.PagerAdapter} that provides fragments
-	 * for each of the three lists in the app.
+	 * A {@link android.support.v4.view.PagerAdapter} that provides the Place-it list fragments.
 	 */
 	ListPagerAdapter lpAdapter;
 
 	/**
-	 * The {@link ViewPager} that will display the three primary sections of the
-	 * app, one at a time.
+	 * The {@link ViewPager} that will display the three Place-it lists.
 	 */
 	ViewPager mViewPager;
 
@@ -31,55 +31,48 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections
-		// of the app.
+		// This adapter returns a fragment for each of the three lists
 		lpAdapter = new ListPagerAdapter(getSupportFragmentManager());
 
-		// Set up the action bar.
+		// Set up the action bar
 		final ActionBar actionBar = getActionBar();
-
-		// Specify that we will be displaying tabs in the action bar.
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		// Set up the ViewPager, attaching the adapter and setting up a listener
-		// for when the
-		// user swipes between sections.
+		// Attach the adapter to the ViewPager
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(lpAdapter);
+		
+		// Listen for user swipes between lists
 		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-				@Override
-				public void onPageSelected(int position) {
-					// When swiping between different app sections, select
-					// the corresponding tab.
-					actionBar.setSelectedNavigationItem(position);
-				}
-			});
+			@Override
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
 
-		// For each list, add a tab to the action bar.
+		// For each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter.
-			actionBar.addTab(actionBar.newTab()
-					.setText(lpAdapter.getPageTitle(i)).setTabListener(this));
+			CharSequence tabTitle = lpAdapter.getPageTitle(i);
+			actionBar.addTab(actionBar.newTab().setText(tabTitle).setTabListener(this));
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
+	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
 
 	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
 }
