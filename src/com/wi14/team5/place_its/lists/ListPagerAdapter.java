@@ -1,7 +1,6 @@
 package com.wi14.team5.place_its.lists;
 
 import java.util.ArrayList;
-
 import com.wi14.team5.place_its.AllPlaceIts;
 
 import android.os.Bundle;
@@ -22,7 +21,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     public ListPagerAdapter(FragmentManager fm) {
         super(fm);
     }
-
+    
     /**
      * Gets the list corresponding to the parameter list number.
      * 0 -> TO DO
@@ -31,14 +30,23 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int listNum) {
-    	ArrayList<String> listItems = new ArrayList<String>();	// get list items from allPlaceits
-    	
-    	listItems.add("foo");
+    	ArrayList<String> names;
+
+    	switch (listNum) {
+    		case 0:
+    			names = new ArrayList<String>(allPlaceIts.getTODO().keySet());
+    		case 1:
+    			names = new ArrayList<String>(allPlaceIts.getINPROGRESS().keySet());
+    		case 2:
+    			names = new ArrayList<String>(allPlaceIts.getCOMPLETED().keySet());
+            default:
+                names = new ArrayList<String>(0);
+    	}
     	
     	Fragment fragment = new PlaceitListFragment();
 
         Bundle args = new Bundle();
-        args.putStringArrayList(PlaceitListFragment.LIST_ITEMS, listItems);
+        args.putStringArrayList(PlaceitListFragment.LIST_ITEMS, names);
         fragment.setArguments(args);
 
         return fragment;

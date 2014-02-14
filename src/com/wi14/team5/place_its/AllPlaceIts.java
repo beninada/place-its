@@ -1,19 +1,28 @@
 package com.wi14.team5.place_its;
 
 import java.util.HashMap;
+import java.util.Observable;
 
-//Instantiated in Main Activity
-public class AllPlaceIts { //TODO implement Subject (for GPS)
-	HashMap<String, PlaceIt> placeitsTODO;
-	HashMap<String, PlaceIt> placeitsINPROGRESS;
-	HashMap<String, PlaceIt> placeitsCOMPLETED;
+public class AllPlaceIts extends Observable{
+	private HashMap<String, PlaceIt> placeitsTODO;
+	private HashMap<String, PlaceIt> placeitsINPROGRESS;
+	private HashMap<String, PlaceIt> placeitsCOMPLETED;
 	
 	public AllPlaceIts(){
-		placeitsTODO 		= new HashMap<String, PlaceIt>();
-		placeitsINPROGRESS 	= new HashMap<String, PlaceIt>();
-		placeitsCOMPLETED 	= new HashMap<String, PlaceIt>();
+		this.placeitsTODO 		= new HashMap<String, PlaceIt>();
+		this.placeitsINPROGRESS 	= new HashMap<String, PlaceIt>();
+		this.placeitsCOMPLETED 	= new HashMap<String, PlaceIt>();
 	}
 	
+	//public void addTODO(PlaceIt p)			{placeitsTODO.put(p.getName(), p);}
+	//public void addINPROGRESS(PlaceIt p)	{placeitsINPROGRESS.put(p.getName(), p);}
+	//public void addCOMPLETED(PlaceIt p)		{placeitsCOMPLETED.put(p.getName(), p);}
+
+	
+	public HashMap<String, PlaceIt> getTODO()		{return this.placeitsTODO;}
+	public HashMap<String, PlaceIt> getINPROGRESS()	{return this.placeitsINPROGRESS;}
+	public HashMap<String, PlaceIt> getCOMPLETED()	{return this.placeitsCOMPLETED;}
+
 	//TODO addPlacit methods called by
 	public void addTODO(PlaceIt p){
 		if (p.getStatus() == 2)
@@ -54,5 +63,6 @@ public class AllPlaceIts { //TODO implement Subject (for GPS)
 		p.setStatus(1);
 	}
 	
+
 	
 }

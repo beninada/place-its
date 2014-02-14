@@ -23,14 +23,12 @@ public class PlaceitListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		listItems = new ArrayList<String>();
-    	listItems.add("foo");
-        ArrayAdapter<String> adapter =
-        				new ArrayAdapter<String>(
-                        inflater.getContext(), android.R.layout.simple_list_item_1,
-                        listItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        						inflater.getContext(), android.R.layout.simple_list_item_1,
+        						listItems);
 
         setListAdapter(adapter);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
