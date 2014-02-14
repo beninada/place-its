@@ -8,10 +8,12 @@ import java.lang.String;
 public class PlaceIt {
 	private Marker marker;
 	private char reccurance;				//snippit, title, position
+	private int status; //1completed, 2in progress or 3to do
 	
 	public PlaceIt(Marker marker, char reccurance){
 		this.marker     = marker;
 		this.reccurance = reccurance;
+		this.status = 3;
 	}
 	
 	public void writeOut(){
@@ -52,5 +54,13 @@ public class PlaceIt {
 	
 	public void setMarker(Marker marker){
 		this.marker = marker;
+	}
+	
+	public int getStatus(){
+		return status;
+	}
+	
+	public void setStatus(int number){
+		this.status = number;
 	}
 }
