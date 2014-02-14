@@ -6,28 +6,32 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.lang.String;
 
 public class PlaceIt {
-	private String name;
-	private LatLng position;
-	private String description;
 	private Marker marker;
+	private char reccurance;				//snippit, title, position
 	
-	public PlaceIt(String name, LatLng position, String description, Marker marker){
-		this.name        = name;
-		this.position    = position;
-		this.description = description;
-		this.marker      = marker;
+	public PlaceIt(Marker marker, char reccurance){
+		this.marker     = marker;
+		this.reccurance = reccurance;
+	}
+	
+	public void writeOut(){
+		//TODO write object to database
+	}
+	
+	public void readIn(){
+		//TODO read object from database
 	}
 	
 	public String getName(){
-		return this.name;
+		return this.marker.getTitle();
 	}
 	
 	public LatLng getPosition(){
-		return this.position;
+		return this.marker.getPosition();
 	}
 	
 	public String getDescription(){
-		return this.description;
+		return this.marker.getSnippet();
 	}
 	
 	public Marker getMarker(){
@@ -35,15 +39,15 @@ public class PlaceIt {
 	}
 	
 	public void setName(String name){
-		this.name = name;
+		this.marker.setTitle(name);
 	}
 	
 	public void setPosition(LatLng position){
-		this.position = position;
+		this.marker.setPosition(position);
 	}
 	
 	public void setDescription(String description){
-		this.description = description;
+		this.marker.setSnippet(description);
 	}
 	
 	public void setMarker(Marker marker){
