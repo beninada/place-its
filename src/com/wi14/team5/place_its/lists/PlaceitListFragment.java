@@ -23,10 +23,14 @@ public class PlaceitListFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// get the bundled arguments from the list pager adapter
+		Bundle bundle = getArguments();
+		listItems = bundle.getStringArrayList(LIST_ITEMS);
+		
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-        						inflater.getContext(), android.R.layout.simple_list_item_1,
-        						listItems);
-
+                     inflater.getContext(), android.R.layout.simple_list_item_1,
+                     listItems);
+ 
         setListAdapter(adapter);
 
         return super.onCreateView(inflater, container, savedInstanceState);

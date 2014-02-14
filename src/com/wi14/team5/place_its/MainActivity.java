@@ -4,11 +4,13 @@ import com.wi14.team5.place_its.lists.ListPagerAdapter;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 /**
  * Fragment Activity that contains the three lists: To Do, In Progress, and
@@ -64,6 +66,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    inflater.inflate(R.menu.main, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_map:
+	            return true;
+	        case R.id.action_new:
+	        	Intent intent = new Intent(MainActivity.this, AddPlaceitActivity.class);
+	        	startActivity(intent);
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

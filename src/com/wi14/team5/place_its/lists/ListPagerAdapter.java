@@ -32,15 +32,19 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int listNum) {
     	ArrayList<String> names;
 
-    	switch (listNum) {
-    		case 0:
-    			names = new ArrayList<String>(allPlaceIts.getTODO().keySet());
-    		case 1:
-    			names = new ArrayList<String>(allPlaceIts.getINPROGRESS().keySet());
-    		case 2:
-    			names = new ArrayList<String>(allPlaceIts.getCOMPLETED().keySet());
-            default:
-                names = new ArrayList<String>(0);
+    	if (allPlaceIts != null) {
+    		switch (listNum) {
+    			case 0:
+                    names = new ArrayList<String>(allPlaceIts.getTODO().keySet());
+    			case 1:
+                    names = new ArrayList<String>(allPlaceIts.getINPROGRESS().keySet());
+    			case 2:
+                    names = new ArrayList<String>(allPlaceIts.getCOMPLETED().keySet());
+    			default:
+    				names = new ArrayList<String>(0);
+    		}
+    	} else {
+    		names = new ArrayList<String>();
     	}
     	
     	Fragment fragment = new PlaceitListFragment();
