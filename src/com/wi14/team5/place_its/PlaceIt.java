@@ -7,12 +7,12 @@ import java.lang.String;
 public class PlaceIt {
 	private Marker marker;
 	private char recurrence;
-	private int listNum;
+	private int status;
 	
-	public PlaceIt(Marker marker, char recurrence, int listNum){
+	public PlaceIt(Marker marker, char recurrence){
 		this.marker     = marker;
 		this.recurrence = recurrence;
-		this.listNum 	= listNum;
+		this.status = 3;
 	}
 	
 	public void writeOut(){
@@ -26,12 +26,13 @@ public class PlaceIt {
 	public String getDescription()					{return this.marker.getSnippet();}
 	public Marker getMarker()						{return this.marker;}
 	public char getRecurrence()						{return this.recurrence;}
-	public int getListNum()							{return this.listNum;}
+	public int getStatus()							{return this.status;}
 	
 	public void setName(String name)				{this.marker.setTitle(name);}
 	public void setPosition(LatLng position)		{this.marker.setPosition(position);}
 	public void setDescription(String description)	{this.marker.setSnippet(description);}
 	public void setMarker(Marker marker)			{this.marker = marker;}
 	public void setRecurrence(char reccurence)		{this.recurrence = recurrence;}
-	public void setListNum(int listNum)				{this.listNum = listNum;}
+	public void setStatys(int status)				{this.status = status;}
+
 }
