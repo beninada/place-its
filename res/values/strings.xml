@@ -4,5 +4,22 @@
     <string name="app_name">Place-its</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="textViewCreatedOn">Created On</string>
+    <string name="EditPlaceItTitle">Title</string>
+    <string name="textViewOccurence">Repeating</string>
+    <string name="textViewNotes">Notes</string>
+    <string name="textViewAddNotes">Notes</string>
+    <string name="buttonSubmit">Place it</string>
+    <string name="buttonCancel">Cancel</string>
+    <string name="buttonSun">S</string>
+    <string name="buttonMon">M</string>
+    <string name="buttonTue">T</string>
+    <string name="buttonWed">W</string>
+    <string name="buttonFri">F</string>
+    <string name="title_activity_recurring_placeit">RecurringPlaceitActivity</string>
+    <string name="radioWeekly">Weekly</string>
+    <string name="radioDaily">Daily</string>
+    <string name="radioTest">Test mode</string>
+    <string name="buttonOk">OK</string>
 
 </resources>

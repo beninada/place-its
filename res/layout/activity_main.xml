@@ -9,8 +9,37 @@
     tools:context=".MainActivity" >
 
     <TextView
+        android:id="@+id/textViewNotes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewNotes"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="131dp"
+        android:onClick="buttonClick"
+        android:text="AddPlaceitActivity" />
+
+    <Button
+        android:id="@+id/buttonMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonCancel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="MoreInfoActivity" />
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonMore"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="MapActivity" />
 
 </RelativeLayout>
