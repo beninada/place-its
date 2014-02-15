@@ -9,10 +9,10 @@ public class PlaceIt {
 	private char recurrence;
 	private int status;
 	
-	public PlaceIt(Marker marker, char recurrence){
+	public PlaceIt(Marker marker, char recurrence, int status){
 		this.marker     = marker;
 		this.recurrence = recurrence;
-		this.status = 3;
+		this.status = status;
 	}
 	
 	public void writeOut(){

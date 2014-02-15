@@ -10,59 +10,30 @@ public class AllPlaceIts extends Observable{
 	
 	public AllPlaceIts(){
 		this.placeitsTODO 		= new HashMap<String, PlaceIt>();
-		this.placeitsINPROGRESS 	= new HashMap<String, PlaceIt>();
+		this.placeitsINPROGRESS = new HashMap<String, PlaceIt>();
 		this.placeitsCOMPLETED 	= new HashMap<String, PlaceIt>();
 	}
 	
-	//public void addTODO(PlaceIt p)			{placeitsTODO.put(p.getName(), p);}
-	//public void addINPROGRESS(PlaceIt p)	{placeitsINPROGRESS.put(p.getName(), p);}
-	//public void addCOMPLETED(PlaceIt p)		{placeitsCOMPLETED.put(p.getName(), p);}
-
+	public void addPlaceIt(PlaceIt p, int status){
+		if(status == 0)	{placeitsTODO.put(p.getName(), p);}
+		if(status == 1)	{placeitsINPROGRESS.put(p.getName(), p);}
+		if(status == 2)	{placeitsCOMPLETED.put(p.getName(), p);}
+	}
 	
+	public void updatePlaceIt(PlaceIt p, int toStatus){
+		if(p.getStatus() == 0) {placeitsTODO.remove(p.getName());}
+		if(p.getStatus() == 1) {placeitsINPROGRESS.remove(p.getName());}
+		if(p.getStatus() == 2) {placeitsINPROGRESS.remove(p.getName());}
+		
+		p.setStatus(toStatus);
+		
+		if(toStatus == 0)		{placeitsTODO.put(p.getName(), p);}
+		if(toStatus == 1)		{placeitsINPROGRESS.put(p.getName(), p);}
+		if(toStatus == 2)		{placeitsCOMPLETED.put(p.getName(), p);}
+	}
+
 	public HashMap<String, PlaceIt> getTODO()		{return this.placeitsTODO;}
 	public HashMap<String, PlaceIt> getINPROGRESS()	{return this.placeitsINPROGRESS;}
 	public HashMap<String, PlaceIt> getCOMPLETED()	{return this.placeitsCOMPLETED;}
-
-	//TODO addPlacit methods called by
-	public void addTODO(PlaceIt p){
-		if (p.getStatus() == 2)
-		{
-			placeitsINPROGRESS.remove(p.getName());
-		}
-		if (p.getStatus() == 1)
-		{
-			placeitsCOMPLETED.remove(p.getName());
-		}
-		placeitsTODO.put(p.getName(), p);
-		p.setStatus(3);
-	}
-	
-	public void addINPROGRESS(PlaceIt p){
-		if (p.getStatus() == 3)
-		{
-			placeitsTODO.remove(p.getName());
-		}
-		if (p.getStatus() == 1)
-		{
-			placeitsCOMPLETED.remove(p.getName());
-		}
-		placeitsINPROGRESS.put(p.getName(), p);
-		p.setStatus(2);
-	}
-	
-	public void addCOMPLETED(PlaceIt p){
-		if (p.getStatus() == 2)
-		{
-			placeitsINPROGRESS.remove(p.getName());
-		}
-		if (p.getStatus() == 3)
-		{
-			placeitsTODO.remove(p.getName());
-		}
-		placeitsCOMPLETED.put(p.getName(), p);
-		p.setStatus(1);
-	}
-	
-
 	
 }
