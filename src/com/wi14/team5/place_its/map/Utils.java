@@ -1,4 +1,4 @@
-package com.wi14.team5.place_its.test;
+package com.wi14.team5.place_its.map;
 
 import java.util.ArrayList;
 

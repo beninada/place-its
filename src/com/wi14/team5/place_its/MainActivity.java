@@ -13,9 +13,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 
 /**
  * Fragment Activity that contains the three lists: To Do, In Progress, and
@@ -76,15 +80,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 		}
 
-		// Set up the action bar
+		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		// Attach the adapter to the ViewPager
+		// attach the adapter to the ViewPager
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(lpAdapter);
 		
-		// Listen for user swipes between lists
+		// listen for user swipes between lists
 		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
@@ -92,17 +96,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 
-		// For each list, add a tab to the action bar with text corresponding to page title.
+		// for each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
 					                  .setText(lpAdapter.getPageTitle(i))
 					                  .setTabListener(this));
 		}
+		
+		// register the list for context menu on hold down.
+	    ListView lv = (ListView) findViewById(R.id.list);
+	    registerForContextMenu(lv);
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    // Inflate the menu items for use in the action bar
+	    // inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main, menu);
 	    return super.onCreateOptionsMenu(menu);
@@ -110,17 +118,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
+		Intent intent;
+
+	    // handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.action_map:
+	        	intent = new Intent(MainActivity.this, MapActivity.class);
+	        	startActivity(intent);
 	            return true;
 	        case R.id.action_new:
-	        	Intent intent = new Intent(MainActivity.this, AddPlaceitActivity.class);
+	        	intent = new Intent(MainActivity.this, AddPlaceitActivity.class);
 	        	startActivity(intent);
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        if (v.getId() == R.id.list) {
+            menu.add("TO DO");
+            menu.add("IN PROGRESS");
+            menu.add("COMPLETED");
+        }
 	}
 
 	@Override
@@ -133,8 +154,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
-	
+
 	public AllPlaceIts getAllPlaceIts() {
 		return allPlaceIts;
 	}
+
 }

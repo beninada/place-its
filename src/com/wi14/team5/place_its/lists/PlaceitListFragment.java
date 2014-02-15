@@ -31,7 +31,7 @@ public class PlaceitListFragment extends ListFragment {
                      inflater.getContext(), android.R.layout.simple_list_item_1, names);
  
         setListAdapter(adapter);
-
+        
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
