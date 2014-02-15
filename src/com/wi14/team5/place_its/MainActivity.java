@@ -1,5 +1,10 @@
 package com.wi14.team5.place_its;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
 
 import android.app.ActionBar;
@@ -20,21 +25,56 @@ import android.view.MenuItem;
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	/**
-	 * A {@link android.support.v4.view.PagerAdapter} that provides the Place-it list fragments.
+	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
-	ListPagerAdapter lpAdapter;
+	private ListPagerAdapter lpAdapter;
 
 	/**
-	 * The {@link ViewPager} that will display the three Place-it lists.
+	 * The ViewPager that will display the three Place-it lists.
 	 */
-	ViewPager mViewPager;
+	private	ViewPager mViewPager;
+	
+	/**
+	 * The SQLiteHandler that deals with database I/O. It must exist for as long as
+	 * this activity is alive.
+	 */
+	private SQLiteHandler sqlh;
+
+	/**
+	 * The GoogleMap that is used throughout this app.
+	 */
+    private GoogleMap mMap;
+
+    /**
+     * Contains every instantiated PlaceIt.
+     */
+	private AllPlaceIts allPlaceIts;
+
+	/**
+	 * Sets up the working environment for the app.
+	 * This method brings the app back to its state before onDestroy() was called.
+	 * Should be called if there are place-its in the database.
+	 */
+	private void setup() {
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+		ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
+		allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
+	}
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// This adapter returns a fragment for each of the three lists
-		lpAdapter = new ListPagerAdapter(getSupportFragmentManager());
+		// get a handler to the database
+		sqlh = new SQLiteHandler(this);
+
+		if (sqlh.getPlaceItCount() > 0) {
+			setup();
+			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+		} else {
+			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
+		}
 
 		// Set up the action bar
 		final ActionBar actionBar = getActionBar();
@@ -54,8 +94,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		// For each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
-			CharSequence tabTitle = lpAdapter.getPageTitle(i);
-			actionBar.addTab(actionBar.newTab().setText(tabTitle).setTabListener(this));
+			actionBar.addTab(actionBar.newTab()
+					                  .setText(lpAdapter.getPageTitle(i))
+					                  .setTabListener(this));
 		}
 	}
 	
@@ -82,7 +123,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    }
 	}
 
-
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
@@ -93,4 +133,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
+	
+	public AllPlaceIts getAllPlaceIts() {
+		return allPlaceIts;
+	}
 }

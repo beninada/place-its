@@ -13,6 +13,12 @@ public class AllPlaceIts extends Observable{
 		this.placeitsINPROGRESS = new HashMap<String, PlaceIt>();
 		this.placeitsCOMPLETED 	= new HashMap<String, PlaceIt>();
 	}
+
+	public AllPlaceIts(HashMap<String, PlaceIt> t, HashMap<String, PlaceIt> i, HashMap<String, PlaceIt> c){
+		this.placeitsTODO 		= t;
+		this.placeitsINPROGRESS = i;
+		this.placeitsCOMPLETED 	= c;
+	}
 	
 	public void addPlaceIt(PlaceIt p, int status){
 		if(status == 0)	{placeitsTODO.put(p.getName(), p);}
