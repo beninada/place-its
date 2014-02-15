@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * A FragmentPagerAdapter that returns a fragment corresponding to
+ * A FragmentPagerAdapter that returns fragments corresponding to
  * one of the three Place-it lists.
  */
 public class ListPagerAdapter extends FragmentPagerAdapter {
@@ -24,7 +24,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
 	private HashMap<String, PlaceIt> completed;
 
 	/**
-	 * Prepares the adapter for building the fragment.
+	 * Prepares the adapter for building fragments.
 	 * @param fm The fragment manager for the main activity.
 	 * @param allPlaceIts The PlaceIts to fill each list up with,
 	 *		null if there are no PlaceIts to add.
@@ -72,11 +72,11 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
   	 * @return the PlaceitListFragment for the desired list.
   	 */
     public Fragment buildPLF(ArrayList<String> names) {
-    	Fragment listFragment = new PlaceitListFragment();
-
     	// bundle up the names to build the appropriate fragment
         Bundle args = new Bundle();
         args.putStringArrayList(PlaceitListFragment.NAMES, names);
+
+    	Fragment listFragment = new PlaceitListFragment();
         listFragment.setArguments(args);
 
         return listFragment;
