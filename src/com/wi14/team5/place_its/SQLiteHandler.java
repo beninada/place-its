@@ -30,6 +30,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 	
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        SQLiteDatabase db = this.getWritableDatabase();
         Log.d("Created Database", "...");
     }
 
@@ -49,8 +50,8 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     }
 	
 	public void addPlaceIt(PlaceIt p) {
-		SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+		SQLiteDatabase db 		= this.getWritableDatabase();
+        ContentValues values 	= new ContentValues();
         
         values.put(KEY_TITLE, p.getName());
         values.put(KEY_LAT, p.getPosition().latitude);
@@ -71,8 +72,8 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 		
 	    String selectQuery = "SELECT  * FROM " + TABLE_PLACEITS;
 	 
-	    SQLiteDatabase db = this.getWritableDatabase();
-	    Cursor cursor = db.rawQuery(selectQuery, null);
+	    SQLiteDatabase db 	= this.getWritableDatabase();
+	    Cursor cursor 		= db.rawQuery(selectQuery, null);
 
 	    if (cursor.moveToFirst()) {
 	        do {
@@ -104,8 +105,9 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         String countQuery 	= "SELECT  * FROM " + TABLE_PLACEITS;
         SQLiteDatabase db 	= this.getReadableDatabase();
         Cursor cursor 		= db.rawQuery(countQuery, null);
+        int count 			= cursor.getCount();
         cursor.close();
 
-        return cursor.getCount();
+        return count;
     }
 }
