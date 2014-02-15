@@ -60,10 +60,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * Should be called if there are place-its in the database.
 	 */
 	private void setup() {
-		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		// Do a null check to confirm that we have not already instantiated the map. 
+		if (mMap == null) {
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
-		ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
-		allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
+			// Check if we were successful in obtaining the map. 
+			if (mMap != null) {
+				// The Map is verified. It is now safe to manipulate the map.
+				ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
+				allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
+			} 
+		}
 	}
 
 	public void onCreate(Bundle savedInstanceState) {

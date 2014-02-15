@@ -1,9 +1,14 @@
 package com.wi14.team5.place_its;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.app.Activity;
 import android.content.Context;
@@ -58,6 +63,25 @@ public class MapActivity extends Activity {
 				// The Map is verified. It is now safe to manipulate the map.
                 centerMapOnMyLocation();
                 mMap.setMyLocationEnabled(true);
+
+                SQLiteHandler sqlh = new SQLiteHandler(this);
+
+                // if there are place-its in the db, add them to the map
+                if (sqlh.getPlaceItCount() > 0) {
+                    ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
+                    
+                    // iterate over each hash map in the array list
+                    for (HashMap<String, PlaceIt> h : l) {
+                    	// get all place-its in each slot of the hash map
+                    	for (PlaceIt p : h.values()) {
+                    		Marker m = p.getMarker();
+                            mMap.addMarker(new MarkerOptions() 
+                                    	.position(m.getPosition())
+                                    	.title(m.getTitle())
+                                    	.snippet(m.getSnippet()));	
+                    	}
+                    }
+                }
 			} 
 		}
 	}
