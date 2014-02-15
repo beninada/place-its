@@ -14,8 +14,8 @@ import android.widget.ArrayAdapter;
  */
 public class PlaceitListFragment extends ListFragment {
 
-	public static final String LIST_ITEMS = "list_items";
-	private ArrayList<String> listItems;
+	public static final String NAMES = "names";
+	private ArrayList<String> names;
 
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +25,13 @@ public class PlaceitListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// get the bundled arguments from the list pager adapter
 		Bundle bundle = getArguments();
-		listItems = bundle.getStringArrayList(LIST_ITEMS);
+		names = bundle.getStringArrayList(NAMES);
 		
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                     inflater.getContext(), android.R.layout.simple_list_item_1,
-                     listItems);
+                     inflater.getContext(), android.R.layout.simple_list_item_1, names);
  
         setListAdapter(adapter);
-
+        
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

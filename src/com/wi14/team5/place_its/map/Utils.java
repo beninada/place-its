@@ -1,4 +1,4 @@
-package com.wi14.team5.place_its.test;
+package com.wi14.team5.place_its.map;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class Utils {
 	 * @return the filled AllPlaceIts data structure.
 	 */
 	public static AllPlaceIts fillAllPlaceIts(GoogleMap map, int numMarkersToFill) {
-		AllPlaceIts api = new AllPlaceIts();
+		AllPlaceIts allPlaceIts = new AllPlaceIts();
 
 		ArrayList<Marker> todoArr = new ArrayList<Marker>(25);
 		ArrayList<Marker> ipArr = new ArrayList<Marker>(25);
@@ -39,11 +39,11 @@ public class Utils {
 		}
 		
 		for (int i = 0; i < numMarkersToFill; i++) {
-			api.addTODO(new PlaceIt(todoArr.get(i), '0'));
-			api.addINPROGRESS(new PlaceIt(ipArr.get(i), '0'));
-			api.addCOMPLETED(new PlaceIt(compArr.get(i), '0'));
+			allPlaceIts.addPlaceIt(new PlaceIt(todoArr.get(i), '0', 0), 0);
+			allPlaceIts.addPlaceIt(new PlaceIt(ipArr.get(i), '0', 1), 1);
+			allPlaceIts.addPlaceIt(new PlaceIt(compArr.get(i), '0', 2), 2);
 		}
 		
-		return api;
+		return allPlaceIts;
 	}
 }
