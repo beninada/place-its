@@ -18,7 +18,8 @@ import android.view.MenuItem;
  * through.
  */
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-
+	SQLiteHandler db;
+	
 	/**
 	 * A {@link android.support.v4.view.PagerAdapter} that provides the Place-it list fragments.
 	 */
@@ -32,6 +33,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		db = new SQLiteHandler(this);
 
 		// This adapter returns a fragment for each of the three lists
 		lpAdapter = new ListPagerAdapter(getSupportFragmentManager());
