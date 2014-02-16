@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
-import com.wi14.team5.place_its.lists.PlaceItListFragment;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**

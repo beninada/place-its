@@ -24,31 +24,34 @@ public class PlaceItListFragment extends ListFragment {
 
 	private ArrayList<String> names;
 	private ArrayAdapter<String> namesAdapter;
-	private int listNum;
 	
 	public static final String NAMES = "names";
 	public static final String NAME = "name";
 	public static final String LIST_NUM = "list_num";
 	
+	private static boolean hasBeenCreated = false;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-	}
+        Log.d("PlaceItListFragment", "onCreate() called");
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// get the list item names from the list pager adapter
 		Bundle bundle = getArguments();
 		names = bundle.getStringArrayList(NAMES);
-		listNum = bundle.getInt(LIST_NUM);
-		
-		if ( (names.size() == 0) || (names == null) ) {
-			Log.d("Bundled ArrayList sent to PlaceitListFragment has no names or is null.", "...");
-			names = new ArrayList<String>();
-		}
-		
-        namesAdapter = new ArrayAdapter<String>(inflater.getContext(),
-      	                           android.R.layout.simple_list_item_1, names);
- 
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("PlaceItListFragment", "onCreateView() called");
+        if (!hasBeenCreated) {
+            namesAdapter = new ArrayAdapter<String>(inflater.getContext(),
+                                         android.R.layout.simple_list_item_1, names);
+        } else {
+            if (names.size() > 0) {
+                namesAdapter.addAll(names);
+            }
+        }
+
         setListAdapter(namesAdapter);
         
         // register the entire list view to automatically register the list items
@@ -72,24 +75,29 @@ public class PlaceItListFragment extends ListFragment {
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
-		String selection = namesAdapter.getItem(info.position);		// the context menu selection
-		int id = item.getItemId();
+		// don't dispatch context selection events to non-visible fragments
+		if (getUserVisibleHint()) {
+            AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+            String selection = namesAdapter.getItem(info.position);
+            int id = item.getItemId();
 
-		if (id != R.id.menu_item_cancel) {
-            namesAdapter.remove(selection);
-            namesAdapter.notifyDataSetChanged();
+            if (id != R.id.menu_item_cancel) {
+                namesAdapter.remove(selection);
+                namesAdapter.notifyDataSetChanged();
 
-            switch (id) {
-                case R.id.menu_item_todo:
-                    break;
-                case R.id.menu_item_inprogress:
-                    break;
-                case R.id.menu_item_completed:
-                    break;
-                case R.id.menu_item_delete:
-                    break;
+                switch (id) {
+                    case R.id.menu_item_todo:
+                        break;
+                    case R.id.menu_item_inprogress:
+                        break;
+                    case R.id.menu_item_completed:
+                        break;
+                    case R.id.menu_item_delete:
+                        break;
+                }
             }
+
+            return true;
 		}
         
         return super.onOptionsItemSelected(item);

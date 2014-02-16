@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 
 /**
  * A FragmentPagerAdapter that returns fragments corresponding to
@@ -34,6 +34,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
         super(fm);
                
         if (allPlaceIts != null) {
+        	Log.d("ListPagerAdapter", "allPlaceIts being used to construct an lpa");
             todo = allPlaceIts.getTODO();
             inProgress = allPlaceIts.getINPROGRESS();
             completed = allPlaceIts.getCOMPLETED();
