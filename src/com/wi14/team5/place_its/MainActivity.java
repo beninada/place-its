@@ -3,11 +3,6 @@ package com.wi14.team5.place_its;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
 
 import android.app.ActionBar;
@@ -16,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -70,24 +66,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Intent intent = getIntent();
-		if (intent != null) {
-			dealWithIntent(intent);
-		}
-		
 		// if the app has not been created yet...
 		if (!hasBeenCreated) {
             sqlh = new SQLiteHandler(this);
-            lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 
             // if there are place-its in the db, add them to the lists
 			if (sqlh.getPlaceItCount() > 0) {
                 ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts();
                 allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
                 lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+			} else {
+				allPlaceIts = new AllPlaceIts();
+				lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 			}
 
 			hasBeenCreated = true;
+		}
+
+		Intent intent = getIntent();
+		if (intent != null) {
+			dealWithIntent(intent);
+			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 		}
 
 		// set up the action bar
@@ -106,6 +105,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 
+	    //So notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
+
 		// for each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
@@ -116,6 +119,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
+
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
 	}
 	
 	private void dealWithIntent(Intent intent) {
@@ -135,14 +142,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             PlaceIt added = new PlaceIt(title, lat, lng, snippet, recurrence, status);
             allPlaceIts.addPlaceIt(added, status);
-		}
-
-	    //So notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
-
-		if(gpsManager == null) {
-			gpsManager = new GPSManager(this, allPlaceIts);
 		}
 	}
 

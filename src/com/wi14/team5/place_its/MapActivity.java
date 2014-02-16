@@ -68,17 +68,16 @@ public class MapActivity extends Activity {
 
                 // if there are place-its in the db, add them to the map
                 if (sqlh.getPlaceItCount() > 0) {
-                    ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
+                    ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts();
                     
                     // iterate over each hash map in the array list
                     for (HashMap<String, PlaceIt> h : l) {
                     	// get all place-its in each slot of the hash map
                     	for (PlaceIt p : h.values()) {
-                    		Marker m = p.getMarker();
                             mMap.addMarker(new MarkerOptions() 
-                                    	.position(m.getPosition())
-                                    	.title(m.getTitle())
-                                    	.snippet(m.getSnippet()));
+                                    	.position(new LatLng(p.getLat(), p.getLng()))
+                                    	.title(p.getName())
+                                    	.snippet(p.getDescription()));
                     	}
                     }
                 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 /**
  * A FragmentPagerAdapter that returns fragments corresponding to
@@ -52,16 +53,22 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int listNum) {
     	ArrayList<String> names;
     	
+    	
     	switch (listNum) {
     		case 0:
                 names = new ArrayList<String>(todo.keySet());
+                break;
     		case 1:
                 names = new ArrayList<String>(inProgress.keySet());
+                break;
     		case 2:
                 names = new ArrayList<String>(completed.keySet());
+                break;
     		default:
     			names = null;
     	}
+    	
+    	Log.d("todo.keySet()", new Integer(todo.keySet().size()).toString());
     	
     	return buildPLF(names);
     }

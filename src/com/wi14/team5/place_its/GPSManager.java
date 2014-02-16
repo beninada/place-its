@@ -88,7 +88,7 @@ public static final int gpsNotifyID = 1337;
 	public void onLocationChanged(Location location) {
 		if(placeIts != null && !placeIts.getTODO().isEmpty()) {
 			for(PlaceIt placeit : placeIts.getTODO().values()){
-				LatLng position = placeit.getPosition();
+				LatLng position = new LatLng(placeit.getLat(), placeit.getLng());
 				currentTarget.setLatitude(position.latitude);
 				currentTarget.setLongitude(position.longitude);
 				if(location.distanceTo(currentTarget) <= RADIUS){

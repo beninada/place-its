@@ -93,7 +93,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         db.close();
 	}
 	
-	public ArrayList<HashMap<String, PlaceIt>> getAllPlaceIts(GoogleMap map) {
+	public ArrayList<HashMap<String, PlaceIt>> getAllPlaceIts() {
 		ArrayList<HashMap<String,PlaceIt>> all 	= new ArrayList<HashMap<String,PlaceIt>>(3);
 		HashMap<String, PlaceIt> todo 			= new HashMap<String, PlaceIt>();
 		HashMap<String, PlaceIt> inprogress 	= new HashMap<String, PlaceIt>();
@@ -113,10 +113,6 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         		String snippet 	= cursor.getString(4);
         		int reccurence 	= Integer.parseInt(cursor.getString(5));
         		
-        		Marker marker 	= map.addMarker(new MarkerOptions()
-								.position(new LatLng(lat, lng))
-								.title(title)
-								.snippet(snippet));
         		PlaceIt placeit	= new PlaceIt(title, lat, lng, snippet, (byte)reccurence, status);
         		
 	        	if(status == 0)	{todo.put(placeit.getName(), placeit);}
