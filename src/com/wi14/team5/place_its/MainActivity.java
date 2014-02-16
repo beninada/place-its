@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -66,6 +65,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+
 		// if the app has not been created yet...
 		if (!hasBeenCreated) {
             sqlh = new SQLiteHandler(this);
@@ -74,7 +75,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			if (sqlh.getPlaceItCount() > 0) {
                 ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts();
                 allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
-                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 			} else {
 				if(allPlaceIts == null) {
 					allPlaceIts = new AllPlaceIts();
@@ -82,13 +82,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 			}
 
+            lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 			hasBeenCreated = true;
-		}
-
-		Intent intent = getIntent();
-		if (intent != null) {
-			dealWithIntent(intent);
-			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+		} else {
+            if (intent != null) {
+                dealWithIntent(intent);
+                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+            }
 		}
 
 		// set up the action bar

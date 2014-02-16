@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 /**
  * A FragmentPagerAdapter that returns fragments corresponding to

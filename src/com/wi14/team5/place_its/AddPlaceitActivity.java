@@ -132,7 +132,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the map. 
 		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.add_map)).getMap();
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 			
 			// Check if we were successful in obtaining the map. 
 			if (mMap != null) {
@@ -171,18 +171,13 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			
 			Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			//Bundle extras = new Bundle();
 
-			// bundle all place-it info up
 			intent.putExtra(MainActivity.STATUS, 0);
 			intent.putExtra(MainActivity.LAT, added.getPosition().latitude);
 			intent.putExtra(MainActivity.LNG, added.getPosition().longitude);
 			intent.putExtra(MainActivity.RECURRENCE, recurrence);
 			intent.putExtra(MainActivity.TITLE, title.getText().toString());
 			intent.putExtra(MainActivity.SNIPPET, added.getSnippet());
-
-			// and send it all over with the intent
-			//intent.putExtra(MainActivity.PLACE_IT, extras);
 
 			startActivity(intent);
 		}
