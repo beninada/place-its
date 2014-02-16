@@ -24,8 +24,7 @@ public static final int gpsNotifyID = 1337;
 	Location currentTarget;
 	Activity activity;
 	AllPlaceIts placeIts;
-	int ID;
-	
+	int ID;	
 
 	
 	public GPSManager(Activity activity, AllPlaceIts allPlaceIts) {
@@ -49,9 +48,7 @@ public static final int gpsNotifyID = 1337;
 			createGPSNotification();
 		}
 		
-		
 	}
-
 	
 	public void createGPSNotification() {
 		 NotificationCompat.Builder mBuilder =
@@ -75,7 +72,7 @@ public static final int gpsNotifyID = 1337;
 		        .setTicker(placeit.getDescription());
 	 
 		
-		Intent intent = new Intent(activity, MainActivity.class); //TODO goes to MainActivity when notification is tapped on
+		Intent intent = new Intent(activity, activity.getClass());
 	 	PendingIntent resultIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mBuilder.setContentIntent(resultIntent);
 		// ID allows you to update the notification later on.
@@ -89,18 +86,15 @@ public static final int gpsNotifyID = 1337;
 
 	@Override
 	public void onLocationChanged(Location location) {
-		//Log.d("DEBUG", "CURRENT LOC");
-		//Log.d("DEBUG", Double.toString(location.getLatitude()));
-		//Log.d("DEBUG", Double.toString(location.getLongitude()));
-		
-		for(PlaceIt placeit : placeIts.getTODO().values()){
-			LatLng position = placeit.getPosition();
-			currentTarget.setLatitude(position.latitude);
-			currentTarget.setLongitude(position.longitude);
-			if(location.distanceTo(currentTarget) <= RADIUS){
-				createNotification(placeit);
-				//TODO
-				//placeIts.moveTODOtoINPROGRESS(placeit);
+		if(placeIts != null && !placeIts.getTODO().isEmpty()) {
+			for(PlaceIt placeit : placeIts.getTODO().values()){
+				LatLng position = placeit.getPosition();
+				currentTarget.setLatitude(position.latitude);
+				currentTarget.setLongitude(position.longitude);
+				if(location.distanceTo(currentTarget) <= RADIUS){
+					createNotification(placeit);
+					placeIts.updatePlaceIt(placeit, 1);
+				}
 			}
 		}
 	}

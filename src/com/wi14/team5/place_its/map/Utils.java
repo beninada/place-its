@@ -38,11 +38,13 @@ public class Utils {
 						   .snippet("A snippet")));
 		}
 		
+		/*
 		for (int i = 0; i < numMarkersToFill; i++) {
 			allPlaceIts.addPlaceIt(new PlaceIt(todoArr.get(i), '0', 0), 0);
 			allPlaceIts.addPlaceIt(new PlaceIt(ipArr.get(i), '0', 1), 1);
 			allPlaceIts.addPlaceIt(new PlaceIt(compArr.get(i), '0', 2), 2);
 		}
+		*/
 		
 		return allPlaceIts;
 	}

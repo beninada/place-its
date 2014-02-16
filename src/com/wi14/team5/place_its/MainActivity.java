@@ -29,7 +29,7 @@ import android.widget.ListView;
  * Completed. They are displayed in tabs that the user can select/scroll
  * through.
  */
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {	
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
@@ -50,6 +50,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * The GoogleMap that is used throughout this app.
 	 */
     private GoogleMap mMap;
+    
+    /**
+     * GPSManager manages gps notification functions of place its
+     */
+    private GPSManager gpsManager;
 
     /**
      * Contains every instantiated PlaceIt.
@@ -102,11 +107,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		} else {
             sqlh = new SQLiteHandler(this);
 		}
-		
-		Bundle extras = getIntent().getExtras();
+
+		Intent intent = getIntent();
+		Bundle extras = new Bundle();
+		if (intent != null) {
+			extras = intent.getExtras();
+		}
 		
 		// if we received an intent, add the new place-it to AllPlaceIts
-		if (extras != null) {
+		if (!extras.isEmpty()) {
             int status = extras.getInt(STATUS, 0);
             double lat = extras.getDouble(LAT, 0);
             double lng = extras.getDouble(LNG, 0);
@@ -120,8 +129,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             	.snippet(snippet));
 
             PlaceIt added = new PlaceIt(marker, recurrence, status);
+            allPlaceIts.addPlaceIt(added, status);
 		}
 
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
+		
 		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -148,7 +162,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
+	    
+	    //So notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
 	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

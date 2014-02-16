@@ -51,6 +51,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	Dialog d;
 	RadioGroup firstRadioGroup, secondRadioGroup;
 	RadioButton radioWeekly, radioDaily, radioTest;
+	byte recurrence;
 	
 	
 	
@@ -177,7 +178,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			extras.putInt(MainActivity.STATUS, 0);
 			extras.putDouble(MainActivity.LAT, added.getPosition().latitude);
 			extras.putDouble(MainActivity.LNG, added.getPosition().longitude);
-			extras.putByte(MainActivity.RECURRENCE, added.getRecurrence());
+			extras.putByte(MainActivity.RECURRENCE, recurrence);
 			extras.putString(MainActivity.TITLE, title.getText().toString());
 			extras.putString(MainActivity.SNIPPET, added.getSnippet());
 
@@ -244,12 +245,26 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 				        
 				        if (radioWeekly.isChecked()) {			    
 				        	repeat.setText("WEEKLY");
+				        	//010101010
+				        	for(int i = 0; i < firstRadioGroup.getChildCount(); i++){
+				        		if(firstRadioGroup.getChildAt(i).isSelected() == true)
+				        			recurrence = (byte) (recurrence | (1 << i));
+				        	}
 				        }
 				        else if(radioDaily.isChecked()) {
 				        	repeat.setText("DAILY");
+				        	//011111111
+				        	for(int i = 0; i < 8; i++){
+				        		recurrence = (byte) (recurrence | (1 << i));
+				        	}
 				        }
 				        else if (radioTest.isChecked()) {
 				        	repeat.setText("TEST MODE");
+				        	//10000000
+				        	recurrence = (byte) (recurrence | (1 << 7));
+				        	for(int i = 0; i < 7; i++){
+				        		recurrence = (byte) (recurrence & ~(1 << i));
+				        	}
 				        }
 				        else {
 				        	repeat.setText("OFF");
@@ -257,11 +272,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 							isRecurring = false;
 							return;
 				        }
-
-						
-						
-						
-						
+		
 					}
 				});
 	        }
