@@ -46,11 +46,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	private SQLiteHandler sqlh;
 
-	/**
-	 * The GoogleMap that is used throughout this app.
-	 */
-    private GoogleMap mMap;
-    
     /**
      * GPSManager manages gps notification functions of place its
      */
@@ -61,8 +56,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
 	private AllPlaceIts allPlaceIts;
 	
-	private boolean firstRun = false;
-	
 	public static final String PLACE_IT = "placeit";
 	public static final String STATUS = "status";
 	public static final String TITLE = "title";
@@ -71,71 +64,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String SNIPPET = "snippet";
 	public static final String RECURRENCE = "recurrence";
 
-	/**
-	 * Sets up the working environment for the app.
-	 * This method brings the app back to its state before onDestroy() was called.
-	 * Should be called if there are place-its in the database.
-	 */
-	private void setup() {
-		// Do a null check to confirm that we have not already instantiated the map. 
-		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-			// Check if we were successful in obtaining the map. 
-			if (mMap != null) {
-				// The Map is verified. It is now safe to manipulate the map.
-				ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts(mMap);
-				allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
-			} 
-		}
-	}
+	private boolean hasBeenCreated = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// if this is the first time MainActivity has been created,
-		// get the db handler and rebuild the lists
-		// otherwise, instantiate the db handler and the lists
-		if (firstRun) {
-			if (sqlh.getPlaceItCount() > 0) {
-                setup();
-                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
-			} else {
-				lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
-			}
-		} else {
-            sqlh = new SQLiteHandler(this);
-		}
 
 		Intent intent = getIntent();
-		Bundle extras = new Bundle();
 		if (intent != null) {
-			extras = intent.getExtras();
+			dealWithIntent(intent);
 		}
 		
-		// if we received an intent, add the new place-it to AllPlaceIts
-		if (!extras.isEmpty()) {
-            int status = extras.getInt(STATUS, 0);
-            double lat = extras.getDouble(LAT, 0);
-            double lng = extras.getDouble(LNG, 0);
-            byte recurrence = extras.getByte(RECURRENCE, (byte) 0);
-            String title = extras.getString(TITLE);
-            String snippet = extras.getString(SNIPPET);
+		// if the app has not been created yet...
+		if (!hasBeenCreated) {
+            sqlh = new SQLiteHandler(this);
+            lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 
-            Marker marker = mMap.addMarker(new MarkerOptions()
-            	.position(new LatLng(lat, lng))
-            	.title(title)
-            	.snippet(snippet));
+            // if there are place-its in the db, add them to the lists
+			if (sqlh.getPlaceItCount() > 0) {
+                ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts();
+                allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
+                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+			}
 
-            PlaceIt added = new PlaceIt(marker, recurrence, status);
-            allPlaceIts.addPlaceIt(added, status);
+			hasBeenCreated = true;
 		}
 
-		if(gpsManager == null) {
-			gpsManager = new GPSManager(this, allPlaceIts);
-		}
-		
 		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -162,13 +116,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
-	    
+	}
+	
+	private void dealWithIntent(Intent intent) {
+		Bundle extras = null;
+		if (intent != null) {
+			extras = intent.getExtras();
+		}
+
+		// if we received an intent, add the new place-it to AllPlaceIts
+		if (extras != null) {
+            int status = extras.getInt(STATUS, 0);
+            double lat = extras.getDouble(LAT, 0);
+            double lng = extras.getDouble(LNG, 0);
+            byte recurrence = extras.getByte(RECURRENCE, (byte) 0);
+            String title = extras.getString(TITLE);
+            String snippet = extras.getString(SNIPPET);
+
+            PlaceIt added = new PlaceIt(title, lat, lng, snippet, recurrence, status);
+            allPlaceIts.addPlaceIt(added, status);
+		}
+
 	    //So notifications go to the In Progress tab
 	    int tab = intent.getIntExtra("Tab", 0);
 	    mViewPager.setCurrentItem(tab);
+
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
 	}
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    // inflate the menu items for use in the action bar

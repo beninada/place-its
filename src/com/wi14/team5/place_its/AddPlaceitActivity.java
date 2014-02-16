@@ -134,7 +134,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the map. 
 		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.add_map)).getMap();
 			
 			// Check if we were successful in obtaining the map. 
 			if (mMap != null) {
