@@ -27,6 +27,10 @@ public class PlaceitListFragment extends ListFragment {
 		Bundle bundle = getArguments();
 		names = bundle.getStringArrayList(NAMES);
 		
+		if (names == null) {
+			names = new ArrayList<String>();
+		}
+		
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                      inflater.getContext(), android.R.layout.simple_list_item_1, names);
  

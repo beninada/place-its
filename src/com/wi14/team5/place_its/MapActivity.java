@@ -78,7 +78,7 @@ public class MapActivity extends Activity {
                             mMap.addMarker(new MarkerOptions() 
                                     	.position(m.getPosition())
                                     	.title(m.getTitle())
-                                    	.snippet(m.getSnippet()));	
+                                    	.snippet(m.getSnippet()));
                     	}
                     }
                 }

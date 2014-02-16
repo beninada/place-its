@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
 
 import android.app.ActionBar;
@@ -27,8 +30,6 @@ import android.widget.ListView;
  * through.
  */
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-	SQLiteHandler db;
-	
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
@@ -54,6 +55,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * Contains every instantiated PlaceIt.
      */
 	private AllPlaceIts allPlaceIts;
+	
+	private boolean firstRun = false;
+	
+	public static final String PLACE_IT = "placeit";
+	public static final String STATUS = "status";
+	public static final String TITLE = "title";
+	public static final String LAT = "lat";
+	public static final String LNG = "lng";
+	public static final String SNIPPET = "snippet";
+	public static final String RECURRENCE = "recurrence";
 
 	/**
 	 * Sets up the working environment for the app.
@@ -78,16 +89,37 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		db = new SQLiteHandler(this);
-
-		// get a handler to the database
-		sqlh = new SQLiteHandler(this);
-
-		if (sqlh.getPlaceItCount() > 0) {
-			setup();
-			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+		// if this is the first time MainActivity has been created,
+		// get the db handler and rebuild the lists
+		// otherwise, instantiate the db handler and the lists
+		if (firstRun) {
+			if (sqlh.getPlaceItCount() > 0) {
+                setup();
+                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+			} else {
+				lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
+			}
 		} else {
-			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
+            sqlh = new SQLiteHandler(this);
+		}
+		
+		Bundle extras = getIntent().getExtras();
+		
+		// if we received an intent, add the new place-it to AllPlaceIts
+		if (extras != null) {
+            int status = extras.getInt(STATUS, 0);
+            double lat = extras.getDouble(LAT, 0);
+            double lng = extras.getDouble(LNG, 0);
+            byte recurrence = extras.getByte(RECURRENCE, (byte) 0);
+            String title = extras.getString(TITLE);
+            String snippet = extras.getString(SNIPPET);
+
+            Marker marker = mMap.addMarker(new MarkerOptions()
+            	.position(new LatLng(lat, lng))
+            	.title(title)
+            	.snippet(snippet));
+
+            PlaceIt added = new PlaceIt(marker, recurrence, status);
 		}
 
 		// set up the action bar
@@ -164,9 +196,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
-
-	public AllPlaceIts getAllPlaceIts() {
-		return allPlaceIts;
-	}
 
 }

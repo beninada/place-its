@@ -160,18 +160,35 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 
 		}
 		else if (title.getText().length() != 0) {
-			Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
 			added.setTitle(title.getText().toString());
 			
-			if (notes.getText().length() != 0)
+			if (notes.getText().length() != 0) {
 				added.setSnippet(notes.getText().toString());
-			else added.setSnippet("");
+			}
+			else {
+				added.setSnippet("");
+			}
+			
+			Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
+			Bundle extras = new Bundle();
+
+			// bundle all place-it info up
+			extras.putInt(MainActivity.STATUS, 0);
+			extras.putDouble(MainActivity.LAT, added.getPosition().latitude);
+			extras.putDouble(MainActivity.LNG, added.getPosition().longitude);
+			extras.putByte(MainActivity.RECURRENCE, added.getRecurrence());
+			extras.putString(MainActivity.TITLE, title.getText().toString());
+			extras.putString(MainActivity.SNIPPET, added.getSnippet());
+
+			// and send it all over with the intent
+			intent.putExtra(MainActivity.PLACE_IT, extras);
+
+			startActivity(intent);
 		}
 		else {
 			Toast.makeText(AddPlaceitActivity.this, "Place-it must have a title", Toast.LENGTH_LONG).show();
 		}
-		//TODO
-		//package everything...store in some type of structure and pass to back end
 	}
 	
 	public void onRecurringClick(View view) {
