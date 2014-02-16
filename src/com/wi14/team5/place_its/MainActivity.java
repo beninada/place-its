@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
+import com.wi14.team5.place_its.lists.PlaceItListFragment;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -12,12 +13,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -29,7 +28,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
-	private ListPagerAdapter lpAdapter;
+	private static ListPagerAdapter lpAdapter;
 
 	/**
 	 * The ViewPager that will display the three Place-it lists.
@@ -51,6 +50,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * Contains every instantiated PlaceIt.
      */
 	private static AllPlaceIts allPlaceIts;
+
+	/**
+	 * Specifies whether or not onCreate() has been called yet in this life cycle.
+	 */
+	private static boolean hasBeenCreated = false;
 	
 	public static final String PLACE_IT = "placeit";
 	public static final String STATUS = "status";
@@ -60,19 +64,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String SNIPPET = "snippet";
 	public static final String RECURRENCE = "recurrence";
 
-	private static boolean hasBeenCreated = false;
-
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
 
-		// if the app has not been created yet...
 		if (!hasBeenCreated) {
             sqlh = new SQLiteHandler(this);
 
-            // if there are place-its in the db, add them to the lists
 			if (sqlh.getPlaceItCount() > 0) {
                 ArrayList<HashMap<String, PlaceIt>> l = sqlh.getAllPlaceIts();
                 allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
@@ -89,7 +90,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             dealWithIntent(intent);
             lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 		}
+		
+		setupUI();
+		
+		// so notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
+		
+		// register the list for context menu on hold down.
+	    ListView lv = (ListView) findViewById(R.id.list);
+	    registerForContextMenu(lv);
 
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
+	}
+	
+	/**
+	 * Sets up all user interface items in the main activity.
+	 */
+	private void setupUI() {
 		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -112,20 +132,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					                  .setText(lpAdapter.getPageTitle(i))
 					                  .setTabListener(this));
 		}
-		
-		//So notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
-		
-		// register the list for context menu on hold down.
-	    ListView lv = (ListView) findViewById(R.id.list);
-	    registerForContextMenu(lv);
-
-		if(gpsManager == null) {
-			gpsManager = new GPSManager(this, allPlaceIts);
-		}
 	}
 	
+	/**
+	 * Handles an intent sent to the main activity.
+	 * @param intent the intent to handle
+	 */
 	private void dealWithIntent(Intent intent) {
 		if (intent != null) {
             if (intent.getStringExtra(TITLE) == null) return;
@@ -137,8 +149,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             String title = intent.getStringExtra(TITLE);
             String snippet = intent.getStringExtra(SNIPPET);
             
+            // update our allPlaceIts field
             PlaceIt added = new PlaceIt(title, lat, lng, snippet, recurrence, status);
             allPlaceIts.addPlaceIt(added, status);
+            
+            // update the list fragment's adapter so it reflects changes
 		}
 	}
 
@@ -161,7 +176,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_new:
-	        	intent = new Intent(MainActivity.this, AddPlaceitActivity.class);
+	        	intent = new Intent(MainActivity.this, AddPlaceItActivity.class);
 	        	startActivity(intent);
 	            return true;
 	        default:

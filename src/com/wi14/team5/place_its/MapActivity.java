@@ -7,6 +7,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -17,6 +18,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
@@ -33,6 +36,14 @@ public class MapActivity extends Activity {
 
 		setUpMapIfNeeded();
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.map, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -45,7 +56,7 @@ public class MapActivity extends Activity {
 	        	startActivity(intent);
 	            return true;
 	        case R.id.action_new:
-	        	intent = new Intent(MapActivity.this, AddPlaceitActivity.class);
+	        	intent = new Intent(MapActivity.this, AddPlaceItActivity.class);
 	        	startActivity(intent);
 	            return true;
 	        default:
@@ -94,5 +105,17 @@ public class MapActivity extends Activity {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude()), 16));
         }
+	}
+	
+	private void zoomToFitAllMarkers(ArrayList<Marker> markers) {
+        Builder builder = new Builder();
+        for (Marker m : markers) {
+        	builder.include(m.getPosition());
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 
+                this.getResources().getDisplayMetrics().widthPixels, 
+                this.getResources().getDisplayMetrics().heightPixels, 
+                50));
 	}
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.widget.ArrayAdapter;
 
 /**
  * A FragmentPagerAdapter that returns fragments corresponding to
@@ -52,7 +53,6 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int listNum) {
     	ArrayList<String> names;
     	
-    	
     	switch (listNum) {
     		case 0:
                 names = new ArrayList<String>(todo.keySet());
@@ -66,8 +66,8 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     		default:
     			names = null;
     	}
-    	    	
-    	return buildPLF(names);
+    	
+    	return buildPLF(names, listNum);
     }
 
   	/**
@@ -75,12 +75,13 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
   	 * @param names the names of each item in the list.
   	 * @return the PlaceitListFragment for the desired list.
   	 */
-    public Fragment buildPLF(ArrayList<String> names) {
+    public Fragment buildPLF(ArrayList<String> names, int listNum) {
     	// bundle up the names to build the appropriate fragment
         Bundle args = new Bundle();
-        args.putStringArrayList(PlaceitListFragment.NAMES, names);
+        args.putStringArrayList(PlaceItListFragment.NAMES, names);
+        args.putInt(PlaceItListFragment.LIST_NUM, listNum);
 
-    	Fragment listFragment = new PlaceitListFragment();
+    	Fragment listFragment = new PlaceItListFragment();
         listFragment.setArguments(args);
 
         return listFragment;

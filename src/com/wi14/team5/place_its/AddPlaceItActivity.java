@@ -35,23 +35,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class AddPlaceitActivity extends Activity implements OnMapClickListener, OnCheckedChangeListener, OnFocusChangeListener {
-	
+public class AddPlaceItActivity extends Activity implements OnMapClickListener, OnCheckedChangeListener, OnFocusChangeListener {
 	private GoogleMap mMap;
+	private Marker added;
+
 	private EditText title;
 	private EditText notes;
 	private EditText address;
-	private boolean placeitAdded;
-	private boolean isRecurring;
-	private Marker added;
-	private Intent recurring;
 	private Button cancelButton;
-	Dialog d;
-	RadioGroup firstRadioGroup, secondRadioGroup;
-	RadioButton radioWeekly, radioDaily, radioTest;
+	private RadioButton radioWeekly, radioDaily, radioTest;
+	private RadioGroup firstRadioGroup, secondRadioGroup;
+	private Dialog d;
+
+	private boolean isRecurring;
 	byte recurrence;
-	
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +57,22 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 		setUpMapIfNeeded();
 		mMap.setMyLocationEnabled(true);
 		mMap.setOnMapClickListener(this);
-		//mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom))
+
 		title = (EditText) findViewById(R.id.editPlaceItTitle);
 		notes = (EditText) findViewById(R.id.editTextNotes);
 		address = (EditText) findViewById(R.id.editPlaceitAddress);
 		address.setOnFocusChangeListener(this);
+
 		centerMapOnMyLocation();
-		placeitAdded = false; //didn't add yet
-		recurring = new Intent(AddPlaceitActivity.this, RecurringPlaceitActivity.class);
+
 		cancelButton = (Button) findViewById(R.id.buttonCancel);
 	    cancelButton.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View v) {
-	            Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
-	            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
-	            startActivity(intent);
+	        	finish();
 	        }
 	    });
-		isRecurring = false;	
-		
 
+		isRecurring = false;	
 	}
 
 	@Override
@@ -90,7 +84,6 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 					.title(title.getText().toString())
 					.snippet(notes.getText().toString()));	
 			
-			//LatLng pos = added.getPosition();
 			if (title.getText().toString().length() != 0) {
 				added.showInfoWindow();
 			}
@@ -126,40 +119,14 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			catch (IOException e) {
 				//something didn't work
 			}
-			
-	}
-	
-	private void setUpMapIfNeeded() {
-		// Do a null check to confirm that we have not already instantiated the map. 
-		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			
-			// Check if we were successful in obtaining the map. 
-			if (mMap != null) {
-				// The Map is verified. It is now safe to manipulate the map.
-			} 
-		}
-	}
-	
-	private void centerMapOnMyLocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-        if (location != null)
-        {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(location.getLatitude(), location.getLongitude()), 16));
-        }
 	}
 	
 	public void onSubmit(View view) {
 		if (added == null) {
-			Toast.makeText(AddPlaceitActivity.this, "Please select a location", Toast.LENGTH_LONG).show();
+			Toast.makeText(AddPlaceItActivity.this, "Please select a location", Toast.LENGTH_LONG).show();
 
 		}
 		else if (title.getText().length() != 0) {
-			//Toast.makeText(AddPlaceitActivity.this, "Placed it!", Toast.LENGTH_SHORT).show();
 			added.setTitle(title.getText().toString());
 			
 			if (notes.getText().length() != 0) {
@@ -169,7 +136,8 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 				added.setSnippet("");
 			}
 			
-			Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
+			// bundle up info about the new place-it to send to the main activity
+			Intent intent = new Intent(AddPlaceItActivity.this, MainActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			intent.putExtra(MainActivity.STATUS, 0);
@@ -182,12 +150,11 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			startActivity(intent);
 		}
 		else {
-			Toast.makeText(AddPlaceitActivity.this, "Place-it must have a title", Toast.LENGTH_LONG).show();
+			Toast.makeText(AddPlaceItActivity.this, "Place-it must have a title", Toast.LENGTH_LONG).show();
 		}
 	}
 	
 	public void onRecurringClick(View view) {
-
 		if (!isRecurring) {
 			d = new Dialog(this);
 	        Window w = d.getWindow(); 
@@ -213,6 +180,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 					}
 				});
 	        }
+
 	        firstRadioGroup = (RadioGroup) d.findViewById(R.id.firstRadioGroup);
 	        radioWeekly = (RadioButton) d.findViewById(R.id.radioButtonWeekly);
 	        secondRadioGroup = (RadioGroup) d.findViewById(R.id.secondRadioGroup);
@@ -271,26 +239,21 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 				});
 	        }
 	        
-
-	        
 	        isRecurring = true;
 		}
 		else {
 			isRecurring = false;
 		}
-        
 	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-	   
 		firstRadioGroup.clearCheck();
 	    secondRadioGroup.clearCheck();		
 	}
 
 	@Override
 	public void onFocusChange(View view, boolean arg1) {
-		//LatLng pos = added.getPosition();
 		Geocoder geo = new Geocoder(this, Locale.getDefault());
 
 		String userAddress = address.getText().toString();
@@ -308,7 +271,6 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 						.title(title.getText().toString())
 						.snippet(notes.getText().toString()));	
 				
-				//LatLng pos = added.getPosition();
 				if (title.getText().toString().length() != 0) {
 					added.showInfoWindow();
 				}
@@ -316,9 +278,28 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		
 	}
 	
-}
+	private void setUpMapIfNeeded() {
+		// Do a null check to confirm that we have not already instantiated the map. 
+		if (mMap == null) {
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			
+			// Check if we were successful in obtaining the map. 
+			if (mMap != null) {
+				// The Map is verified. It is now safe to manipulate the map.
+			} 
+		}
+	}
+	
+	private void centerMapOnMyLocation() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
 
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        if (location != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(location.getLatitude(), location.getLongitude()), 16));
+        }
+	}
+}
