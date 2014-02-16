@@ -106,16 +106,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 
-	    //So notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
-
 		// for each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
 					                  .setText(lpAdapter.getPageTitle(i))
 					                  .setTabListener(this));
 		}
+		
+		//So notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
 		
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
