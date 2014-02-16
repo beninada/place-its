@@ -200,6 +200,15 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 					public void onClick(View v) {
 						d.hide();
 						ToggleButton repeat = (ToggleButton)findViewById(R.id.toggleButton1);
+						recurrence = (byte)0;
+						
+						ToggleButton sunToggle = (ToggleButton) d.findViewById(R.id.buttonSun);
+						ToggleButton monToggle = (ToggleButton) d.findViewById(R.id.buttonMon);
+						ToggleButton tueToggle = (ToggleButton) d.findViewById(R.id.buttonTue);
+						ToggleButton wedToggle = (ToggleButton) d.findViewById(R.id.buttonWed);
+						ToggleButton thuToggle = (ToggleButton) d.findViewById(R.id.buttonThurs);
+						ToggleButton friToggle = (ToggleButton) d.findViewById(R.id.buttonFri);
+						ToggleButton satToggle = (ToggleButton) d.findViewById(R.id.buttonSat);
 						
 				        radioWeekly = (RadioButton) d.findViewById(R.id.radioButtonWeekly);
 				        radioDaily = (RadioButton) d.findViewById(R.id.radioButtonDaily);
@@ -208,30 +217,43 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 				        if (radioWeekly.isChecked()) {			    
 				        	repeat.setText("WEEKLY");
 				        	//010101010
-				        	for(int i = 0; i < firstRadioGroup.getChildCount(); i++){
-				        		if(firstRadioGroup.getChildAt(i).isSelected() == true)
-				        			recurrence = (byte) (recurrence | (1 << i));
+				        	if(sunToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x40);
+				        	} 
+				        	if(monToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x20);
+				        	} 
+				        	if(tueToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x10);
+				        	}
+				        	if(wedToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x08);
+				        	} 
+				        	if(thuToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x04);
+				        	} 
+				        	if(friToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x02);
+				        	} 
+				        	if(satToggle.isChecked()) {
+				        		recurrence = (byte) (recurrence | (byte)0x01);
 				        	}
 				        }
 				        else if(radioDaily.isChecked()) {
 				        	repeat.setText("DAILY");
 				        	//011111111
-				        	for(int i = 0; i < 8; i++){
-				        		recurrence = (byte) (recurrence | (1 << i));
-				        	}
+				        	recurrence = (byte)0x7F;
 				        }
 				        else if (radioTest.isChecked()) {
 				        	repeat.setText("TEST MODE");
 				        	//10000000
-				        	recurrence = (byte) (recurrence | (1 << 7));
-				        	for(int i = 0; i < 7; i++){
-				        		recurrence = (byte) (recurrence & ~(1 << i));
-				        	}
+				        	recurrence = (byte)0x80;
 				        }
 				        else {
 				        	repeat.setText("OFF");
 							repeat.setChecked(false);
 							isRecurring = false;
+							recurrence = (byte)0;
 							return;
 				        }
 		

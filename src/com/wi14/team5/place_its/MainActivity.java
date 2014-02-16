@@ -44,6 +44,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * GPSManager manages gps notification functions of place its
      */
     private static GPSManager gpsManager;
+    
+    /**
+     * RecurringChecker handles scheduling and reposting place its
+     */
+    private RecurringChecker recurringScheduler;
 
     /**
      * Contains every instantiated PlaceIt.
@@ -100,7 +105,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			gpsManager = new GPSManager(this, allPlaceIts);
 		}
 
-		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
+		recurringScheduler = new RecurringChecker(allPlaceIts); //TODO static? then update this when place it is added?
 	}
 	
 	/**

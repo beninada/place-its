@@ -10,11 +10,15 @@ public class RecurringChecker extends Timer{
 	
 	public RecurringChecker(AllPlaceIts allPlaceIts) {
 		this.allPlaceIts = allPlaceIts;
-		for(PlaceIt placeit : allPlaceIts.getCOMPLETED().values()) {
-			checkRecurrance(placeit);
+		if(allPlaceIts.getCOMPLETED() != null && !allPlaceIts.getCOMPLETED().isEmpty()) { 
+			for(PlaceIt placeit : allPlaceIts.getCOMPLETED().values()) {
+				checkRecurrance(placeit);
+			}
 		}
-		for(PlaceIt placeit : allPlaceIts.getINPROGRESS().values()) {
-			checkRecurrance(placeit);
+		if(allPlaceIts.getINPROGRESS() != null && !allPlaceIts.getINPROGRESS().isEmpty()) {
+			for(PlaceIt placeit : allPlaceIts.getINPROGRESS().values()) {
+				checkRecurrance(placeit);
+			}
 		}
 			
 	}
@@ -39,23 +43,23 @@ public class RecurringChecker extends Timer{
 		int i = 0;
 		while(!timerSet) {
 			i++;
-			dayOfWeek += i;
-			if(dayOfWeek == 8) {
+			dayOfWeek++;
+			if(dayOfWeek >= 8) {
 				dayOfWeek = 1;
 			}
-			if((placeit.getRecurrence() | (byte)0x40) > 0 && dayOfWeek == Calendar.SUNDAY) { //Sunday
+			if(((byte)placeit.getRecurrence() & (byte)0x40) > 0 && dayOfWeek == Calendar.SUNDAY) { //Sunday
 				timerSet = true;	
-			} else if((placeit.getRecurrence() & (byte)0x20) > 0 && dayOfWeek == Calendar.MONDAY) {//Monday
+			} else if(((byte)placeit.getRecurrence() & (byte)0x20) > 0 && dayOfWeek == Calendar.MONDAY) {//Monday
 				timerSet = true;
-			} else if((placeit.getRecurrence() & (byte)0x10) > 0 && dayOfWeek == Calendar.TUESDAY) {//Tues
+			} else if(((byte)placeit.getRecurrence() & (byte)0x10) > 0 && dayOfWeek == Calendar.TUESDAY) {//Tues
 				timerSet = true;
-			} else if((placeit.getRecurrence() & (byte)0x08) > 0 && dayOfWeek == Calendar.WEDNESDAY) {//Wed
+			} else if(((byte)placeit.getRecurrence() & (byte)0x08) > 0 && dayOfWeek == Calendar.WEDNESDAY) {//Wed
 				timerSet = true;
-			} else if((placeit.getRecurrence() & (byte)0x04) > 0 && dayOfWeek == Calendar.THURSDAY) {//Thurs
+			} else if(((byte)placeit.getRecurrence() & (byte)0x04) > 0 && dayOfWeek == Calendar.THURSDAY) {//Thurs
 				timerSet = true;
-			} else if((placeit.getRecurrence() & (byte)0x02) > 0 && dayOfWeek == Calendar.FRIDAY) {//Fri
+			} else if(((byte)placeit.getRecurrence() & (byte)0x02) > 0 && dayOfWeek == Calendar.FRIDAY) {//Fri
 				timerSet = true;
-			} else if((placeit.getRecurrence() & (byte)0x01) > 0 && dayOfWeek == Calendar.SATURDAY) {//Sat
+			} else if(((byte)placeit.getRecurrence() & (byte)0x01) > 0 && dayOfWeek == Calendar.SATURDAY) {//Sat
 				timerSet = true;
 			}
 			if(timerSet) {
