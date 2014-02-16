@@ -49,6 +49,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * The GoogleMap that is used throughout this app.
 	 */
     private GoogleMap mMap;
+    
+    /**
+     * GPSManager manages gps notification functions of place its
+     */
+    private GPSManager gpsManager;
 
     /**
      * Contains every instantiated PlaceIt.
@@ -90,6 +95,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 		}
 
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
+		
 		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -116,6 +125,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
+	    
+	    //So notifications go to the In Progress tab
+	    Intent intent = getIntent();
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
 	}
 	
 	@Override
