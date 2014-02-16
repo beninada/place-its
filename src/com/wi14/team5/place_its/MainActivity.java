@@ -124,6 +124,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		if(gpsManager == null) {
 			gpsManager = new GPSManager(this, allPlaceIts);
 		}
+		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
 	}
 	
 	private void dealWithIntent(Intent intent) {
