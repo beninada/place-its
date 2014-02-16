@@ -86,10 +86,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 			hasBeenCreated = true;
 		} else {
-            if (intent != null) {
-                dealWithIntent(intent);
-                lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
-            }
+            dealWithIntent(intent);
+            lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 		}
 
 		// set up the action bar
@@ -129,8 +127,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 	
 	private void dealWithIntent(Intent intent) {
-		// if we received an intent, add the new place-it to AllPlaceIts
 		if (intent != null) {
+            if (intent.getStringExtra(TITLE) == null) return;
+
             int status = intent.getIntExtra(STATUS, 0);
             double lat = intent.getDoubleExtra(LAT, 0);
             double lng = intent.getDoubleExtra(LNG, 0);
