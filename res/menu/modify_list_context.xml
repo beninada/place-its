@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/menu_item_todo"
+        android:title="@string/todo" />
+
+    <item android:id="@+id/menu_item_inprogress"
+        android:title="@string/inprogress" />
+
+    <item android:id="@+id/menu_item_completed"
+        android:title="@string/completed" />
+
+    <item android:id="@+id/menu_item_delete"
+        android:title="@string/delete" />
+
+    <item android:id="@+id/menu_item_cancel"
+        android:title="@string/cancel" />
+
+</menu>

@@ -24,5 +24,10 @@
     <string name="action_new">New Place-it</string>
     <string name="action_map">View map</string>
     <string name="action_list">View list</string>
+    <string name="todo">MARK AS TO DO</string>
+    <string name="inprogress">MARK AS IN PROGRESS</string>
+    <string name="completed">MARK AS COMPLETED</string>
+    <string name="delete">DELETE</string>
+    <string name="cancel">CANCEL</string>
 
 </resources>
