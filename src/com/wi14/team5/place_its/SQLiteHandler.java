@@ -47,19 +47,49 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACEITS);
         onCreate(db);
     }
-	
-	public void addPlaceIt(PlaceIt p) {
+
+	public void addAllPlaceIts(AllPlaceIts placeits) {
 		SQLiteDatabase db 		= this.getWritableDatabase();
-        ContentValues values 	= new ContentValues();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACEITS);
+		
+        String CREATE_PLACEITS_TABLE 			= "CREATE TABLE " + TABLE_PLACEITS + "("
+												+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE 
+												+ " LAT," + KEY_LAT + " LNG" + KEY_LNG 
+												+ " SNIP," + KEY_SNIP + " REC" + KEY_REC
+												+ " List" + KEY_LIST + ")";
+        db.execSQL(CREATE_PLACEITS_TABLE);
         
-        values.put(KEY_TITLE, p.getName());
-        values.put(KEY_LAT, p.getPosition().latitude);
-        values.put(KEY_LNG, p.getPosition().longitude);
-        values.put(KEY_SNIP, p.getDescription());
-        values.put(KEY_REC, (int)p.getRecurrence());
-        values.put(KEY_LIST, p.getStatus());
- 
-        db.insert(TABLE_PLACEITS, null, values);
+        for(PlaceIt p : placeits.getTODO().values()){
+        	ContentValues values 	= new ContentValues();
+        	values.put(KEY_TITLE, p.getName());
+        	values.put(KEY_LAT, p.getLat());
+        	values.put(KEY_LNG, p.getLng());
+        	values.put(KEY_SNIP, p.getDescription());
+        	values.put(KEY_REC, p.getRecurrence());
+        	values.put(KEY_LIST, p.getStatus());
+        	db.insert(TABLE_PLACEITS, null, values);
+        }
+        for(PlaceIt p : placeits.getINPROGRESS().values()){
+        	ContentValues values 	= new ContentValues();
+        	values.put(KEY_TITLE, p.getName());
+        	values.put(KEY_LAT, p.getLat());
+        	values.put(KEY_LNG, p.getLng());;
+        	values.put(KEY_SNIP, p.getDescription());
+        	values.put(KEY_REC, p.getRecurrence());
+        	values.put(KEY_LIST, p.getStatus());
+        	db.insert(TABLE_PLACEITS, null, values);
+        }
+        for(PlaceIt p : placeits.getCOMPLETED().values()){
+        	ContentValues values 	= new ContentValues();
+        	values.put(KEY_TITLE, p.getName());
+        	values.put(KEY_LAT, p.getLat());
+        	values.put(KEY_LNG, p.getLng());
+        	values.put(KEY_SNIP, p.getDescription());
+        	values.put(KEY_REC, p.getRecurrence());
+        	values.put(KEY_LIST, p.getStatus());
+        	db.insert(TABLE_PLACEITS, null, values);
+        }
+        
         db.close();
 	}
 	
@@ -87,7 +117,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 								.position(new LatLng(lat, lng))
 								.title(title)
 								.snippet(snippet));
-        		PlaceIt placeit	= new PlaceIt(marker, (byte)reccurence, status);
+        		PlaceIt placeit	= new PlaceIt(title, lat, lng, snippet, (byte)reccurence, status);
         		
 	        	if(status == 0)	{todo.put(placeit.getName(), placeit);}
 	        	if(status == 1)	{inprogress.put(placeit.getName(), placeit);}
