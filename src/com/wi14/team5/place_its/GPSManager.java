@@ -1,5 +1,8 @@
 package com.wi14.team5.place_its;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -25,12 +28,14 @@ public static final int gpsNotifyID = 1337;
 	Activity activity;
 	AllPlaceIts placeIts;
 	int ID;	
+	Collection<PlaceIt> listToCompare;
 
 	
 	public GPSManager(Activity activity, AllPlaceIts allPlaceIts) {
 		this.activity = activity;
 		placeIts = allPlaceIts;
 		ID = 0;
+		listToCompare = new ArrayList<PlaceIt>(10);
 		
 		mNotificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
 		locationManager =  (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
@@ -73,6 +78,8 @@ public static final int gpsNotifyID = 1337;
 	 
 		
 		Intent intent = new Intent(activity, activity.getClass());
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("Tab", 1);//so the In Progress tab is selected when notification is tapped on
 	 	PendingIntent resultIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		mBuilder.setContentIntent(resultIntent);
 		// ID allows you to update the notification later on.
@@ -87,7 +94,9 @@ public static final int gpsNotifyID = 1337;
 	@Override
 	public void onLocationChanged(Location location) {
 		if(placeIts != null && !placeIts.getTODO().isEmpty()) {
-			for(PlaceIt placeit : placeIts.getTODO().values()){
+			listToCompare.clear();
+			listToCompare.addAll(placeIts.getTODO().values());
+			for(PlaceIt placeit : listToCompare){
 				LatLng position = new LatLng(placeit.getLat(), placeit.getLng());
 				currentTarget.setLatitude(position.latitude);
 				currentTarget.setLongitude(position.longitude);

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -105,16 +106,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 
-	    //So notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
-
 		// for each list, add a tab to the action bar with text corresponding to page title.
 		for (int i = 0; i < lpAdapter.getCount(); i++) {
 			actionBar.addTab(actionBar.newTab()
 					                  .setText(lpAdapter.getPageTitle(i))
 					                  .setTabListener(this));
 		}
+		
+		//So notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
 		
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
@@ -178,5 +179,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		Log.i("On Pause Called", "......................");
+		sqlh.addAllPlaceIts(allPlaceIts);
+		Log.i("After write, database has", new Integer(sqlh.getPlaceItCount()).toString());
+	}
 
 }
