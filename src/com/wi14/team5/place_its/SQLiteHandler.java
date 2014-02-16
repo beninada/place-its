@@ -3,11 +3,6 @@ package com.wi14.team5.place_its;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

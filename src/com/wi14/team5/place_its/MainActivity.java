@@ -40,17 +40,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * The SQLiteHandler that deals with database I/O. It must exist for as long as
 	 * this activity is alive.
 	 */
-	private SQLiteHandler sqlh;
+	private static SQLiteHandler sqlh;
 
     /**
      * GPSManager manages gps notification functions of place its
      */
-    private GPSManager gpsManager;
+    private static GPSManager gpsManager;
 
     /**
      * Contains every instantiated PlaceIt.
      */
-	private AllPlaceIts allPlaceIts;
+	private static AllPlaceIts allPlaceIts;
 	
 	public static final String PLACE_IT = "placeit";
 	public static final String STATUS = "status";
@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public static final String SNIPPET = "snippet";
 	public static final String RECURRENCE = "recurrence";
 
-	private boolean hasBeenCreated = false;
+	private static boolean hasBeenCreated = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,7 +76,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 allPlaceIts = new AllPlaceIts(l.get(0), l.get(1), l.get(2));
                 lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 			} else {
-				allPlaceIts = new AllPlaceIts();
+				if(allPlaceIts == null) {
+					allPlaceIts = new AllPlaceIts();
+				}
 				lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), null);
 			}
 
@@ -126,20 +128,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 	
 	private void dealWithIntent(Intent intent) {
-		Bundle extras = null;
-		if (intent != null) {
-			extras = intent.getExtras();
-		}
-
 		// if we received an intent, add the new place-it to AllPlaceIts
-		if (extras != null) {
-            int status = extras.getInt(STATUS, 0);
-            double lat = extras.getDouble(LAT, 0);
-            double lng = extras.getDouble(LNG, 0);
-            byte recurrence = extras.getByte(RECURRENCE, (byte) 0);
-            String title = extras.getString(TITLE);
-            String snippet = extras.getString(SNIPPET);
-
+		if (intent != null) {
+            int status = intent.getIntExtra(STATUS, 0);
+            double lat = intent.getDoubleExtra(LAT, 0);
+            double lng = intent.getDoubleExtra(LNG, 0);
+            byte recurrence = intent.getByteExtra(RECURRENCE, (byte) 0);
+            String title = intent.getStringExtra(TITLE);
+            String snippet = intent.getStringExtra(SNIPPET);
+            
             PlaceIt added = new PlaceIt(title, lat, lng, snippet, recurrence, status);
             allPlaceIts.addPlaceIt(added, status);
 		}

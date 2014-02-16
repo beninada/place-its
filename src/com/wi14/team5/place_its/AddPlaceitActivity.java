@@ -170,18 +170,19 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			}
 			
 			Intent intent = new Intent(AddPlaceitActivity.this, MainActivity.class);
-			Bundle extras = new Bundle();
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			//Bundle extras = new Bundle();
 
 			// bundle all place-it info up
-			extras.putInt(MainActivity.STATUS, 0);
-			extras.putDouble(MainActivity.LAT, added.getPosition().latitude);
-			extras.putDouble(MainActivity.LNG, added.getPosition().longitude);
-			extras.putByte(MainActivity.RECURRENCE, recurrence);
-			extras.putString(MainActivity.TITLE, title.getText().toString());
-			extras.putString(MainActivity.SNIPPET, added.getSnippet());
+			intent.putExtra(MainActivity.STATUS, 0);
+			intent.putExtra(MainActivity.LAT, added.getPosition().latitude);
+			intent.putExtra(MainActivity.LNG, added.getPosition().longitude);
+			intent.putExtra(MainActivity.RECURRENCE, recurrence);
+			intent.putExtra(MainActivity.TITLE, title.getText().toString());
+			intent.putExtra(MainActivity.SNIPPET, added.getSnippet());
 
 			// and send it all over with the intent
-			intent.putExtra(MainActivity.PLACE_IT, extras);
+			//intent.putExtra(MainActivity.PLACE_IT, extras);
 
 			startActivity(intent);
 		}
