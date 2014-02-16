@@ -30,12 +30,12 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 
 	public void onCreate(SQLiteDatabase db) {
         String CREATE_PLACEITS_TABLE 			= "CREATE TABLE " + TABLE_PLACEITS + "("
-                								+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE 
-                								+ " LAT," + KEY_LAT + " LNG" + KEY_LNG 
-                								+ " SNIP," + KEY_SNIP + " REC" + KEY_REC
-                								+ " List" + KEY_LIST + ")";
+                								+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " Title,"  
+                								+ KEY_LAT + " LAT," + KEY_LNG + " LNG,"  
+                								+ KEY_SNIP + " SNIP," + KEY_REC + " REC,"
+                								+ KEY_LIST + " List" + ")";
         db.execSQL(CREATE_PLACEITS_TABLE);
-        Log.d("Created Table", "...");
+        Log.i("Created Table", "...");
     }
 
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -48,10 +48,10 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACEITS);
 		
         String CREATE_PLACEITS_TABLE 			= "CREATE TABLE " + TABLE_PLACEITS + "("
-												+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE 
-												+ " LAT," + KEY_LAT + " LNG" + KEY_LNG 
-												+ " SNIP," + KEY_SNIP + " REC" + KEY_REC
-												+ " List" + KEY_LIST + ")";
+												+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " Title,"  
+												+ KEY_LAT + " LAT," + KEY_LNG + " LNG,"  
+												+ KEY_SNIP + " SNIP," + KEY_REC + " REC,"
+												+ KEY_LIST + " List" + ")";
         db.execSQL(CREATE_PLACEITS_TABLE);
         
         for(PlaceIt p : placeits.getTODO().values()){
@@ -84,7 +84,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         	values.put(KEY_LIST, p.getStatus());
         	db.insert(TABLE_PLACEITS, null, values);
         }
-        
+        Log.i("All records written to database", "------------------->");
         db.close();
 	}
 	
@@ -118,6 +118,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 	    all.add(todo);
 	    all.add(inprogress);
 	    all.add(completed);
+	    Log.i("All records read from database", "<-------------------");
 	    return all;
 	}
 	

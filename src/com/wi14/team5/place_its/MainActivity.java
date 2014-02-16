@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -188,5 +189,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) { }
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		Log.i("On Pause Called", "......................");
+		sqlh.addAllPlaceIts(allPlaceIts);
+		Log.i("After write, database has", new Integer(sqlh.getPlaceItCount()).toString());
+	}
 
 }
