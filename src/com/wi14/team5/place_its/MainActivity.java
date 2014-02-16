@@ -89,11 +89,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 		}
 		
-		setupUI();
-		
-		// so notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
+		setupUI(intent);
 		
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
@@ -107,7 +103,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	/**
 	 * Sets up all user interface items in the main activity.
 	 */
-	private void setupUI() {
+	private void setupUI(Intent intent) {
 		// set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -130,6 +126,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					                  .setText(lpAdapter.getPageTitle(i))
 					                  .setTabListener(this));
 		}
+		
+		//So notifications go to the In Progress tab
+	    int tab = intent.getIntExtra("Tab", 0);
+	    mViewPager.setCurrentItem(tab);
+		
+		// register the list for context menu on hold down.
+	    ListView lv = (ListView) findViewById(R.id.list);
+	    registerForContextMenu(lv);
+
+		if(gpsManager == null) {
+			gpsManager = new GPSManager(this, allPlaceIts);
+		}
+		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
 	}
 	
 	/**
