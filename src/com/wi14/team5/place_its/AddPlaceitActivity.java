@@ -178,7 +178,7 @@ public class AddPlaceitActivity extends Activity implements OnMapClickListener, 
 			intent.putExtra(MainActivity.RECURRENCE, recurrence);
 			intent.putExtra(MainActivity.TITLE, title.getText().toString());
 			intent.putExtra(MainActivity.SNIPPET, added.getSnippet());
-			
+
 			startActivity(intent);
 		}
 		else {

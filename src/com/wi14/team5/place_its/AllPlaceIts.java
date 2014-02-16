@@ -3,6 +3,8 @@ package com.wi14.team5.place_its;
 import java.util.HashMap;
 import java.util.Observable;
 
+import android.util.Log;
+
 public class AllPlaceIts extends Observable{
 	private HashMap<String, PlaceIt> placeitsTODO;
 	private HashMap<String, PlaceIt> placeitsINPROGRESS;

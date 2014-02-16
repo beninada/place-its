@@ -32,7 +32,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
 	 */
     public ListPagerAdapter(FragmentManager fm, AllPlaceIts allPlaceIts) {
         super(fm);
-        
+               
         if (allPlaceIts != null) {
             todo = allPlaceIts.getTODO();
             inProgress = allPlaceIts.getINPROGRESS();
@@ -67,9 +67,7 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
     		default:
     			names = null;
     	}
-    	
-    	Log.d("todo.keySet()", new Integer(todo.keySet().size()).toString());
-    	
+    	    	
     	return buildPLF(names);
     }
 
