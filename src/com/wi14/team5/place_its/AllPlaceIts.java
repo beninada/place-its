@@ -28,6 +28,12 @@ public class AllPlaceIts extends Observable{
 		if(status == 2)	{placeitsCOMPLETED.put(p.getName(), p);}
 	}
 	
+	public void removePlaceIt(String name, int status) {
+		if(status == 0) {placeitsTODO.remove(name);}
+		if(status == 1) {placeitsINPROGRESS.remove(name);}
+		if(status == 2) {placeitsCOMPLETED.remove(name);}
+	}
+	
 	public void updatePlaceIt(PlaceIt p, int toStatus){
 		if(p.getStatus() == 0) {placeitsTODO.remove(p.getName());}
 		if(p.getStatus() == 1) {placeitsINPROGRESS.remove(p.getName());}

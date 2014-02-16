@@ -72,7 +72,7 @@ public static final int gpsNotifyID = 1337;
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(activity)
 		        .setSmallIcon(R.drawable.ic_launcher)
-		        .setContentTitle("You have at a nearby Place-It!")
+		        .setContentTitle("Nearby Place-it!")
 		        .setContentText(placeit.getName())
 		        .setTicker(placeit.getDescription());
 	 

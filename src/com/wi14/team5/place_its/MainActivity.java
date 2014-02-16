@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.wi14.team5.place_its.lists.ListPagerAdapter;
+import com.wi14.team5.place_its.lists.PlaceItListFragment.OnAllPlaceItsModifiedListener;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -22,7 +23,7 @@ import android.widget.ListView;
  * Completed. They are displayed in tabs that the user can select/scroll
  * through.
  */
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {	
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnAllPlaceItsModifiedListener {	
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
@@ -98,6 +99,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		if(gpsManager == null) {
 			gpsManager = new GPSManager(this, allPlaceIts);
 		}
+
+		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
 	}
 	
 	/**
@@ -134,11 +137,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
-
-		if(gpsManager == null) {
-			gpsManager = new GPSManager(this, allPlaceIts);
-		}
-		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
 	}
 	
 	/**
@@ -159,8 +157,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // update our allPlaceIts field
             PlaceIt added = new PlaceIt(title, lat, lng, snippet, recurrence, status);
             allPlaceIts.addPlaceIt(added, status);
-            
-            // update the list fragment's adapter so it reflects changes
 		}
 	}
 
@@ -208,6 +204,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		Log.i("On Pause Called", "......................");
 		sqlh.addAllPlaceIts(allPlaceIts);
 		Log.i("After write, database has", new Integer(sqlh.getPlaceItCount()).toString());
+	}
+
+	@Override
+	public void onPlaceItsModified(String name, int listNum) {
+		allPlaceIts.removePlaceIt(name, listNum);
 	}
 
 }
