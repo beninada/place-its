@@ -6,10 +6,10 @@ import java.lang.String;
 
 public class PlaceIt {
 	private Marker marker;
-	private char recurrence;
+	private byte recurrence;
 	private int status;
 	
-	public PlaceIt(Marker marker, char recurrence, int status){
+	public PlaceIt(Marker marker, byte recurrence, int status){
 		this.marker     = marker;
 		this.recurrence = recurrence;
 		this.status = status;
@@ -25,14 +25,14 @@ public class PlaceIt {
 	public LatLng getPosition()						{return this.marker.getPosition();}
 	public String getDescription()					{return this.marker.getSnippet();}
 	public Marker getMarker()						{return this.marker;}
-	public char getRecurrence()						{return this.recurrence;}
+	public byte getRecurrence()						{return this.recurrence;}
 	public int getStatus()							{return this.status;}
 	
 	public void setName(String name)				{this.marker.setTitle(name);}
 	public void setPosition(LatLng position)		{this.marker.setPosition(position);}
 	public void setDescription(String description)	{this.marker.setSnippet(description);}
 	public void setMarker(Marker marker)			{this.marker = marker;}
-	public void setRecurrence(char recurrence)		{this.recurrence = recurrence;}
+	public void setRecurrence(byte recurrence)		{this.recurrence = recurrence;}
 	public void setStatus(int status)				{this.status = status;}
 
 }

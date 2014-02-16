@@ -26,9 +26,7 @@ import android.widget.ListView;
  * Completed. They are displayed in tabs that the user can select/scroll
  * through.
  */
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
-	SQLiteHandler db;
-	
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {	
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
@@ -78,8 +76,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		db = new SQLiteHandler(this);
-
 		// get a handler to the database
 		sqlh = new SQLiteHandler(this);
 
@@ -117,6 +113,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	    ListView lv = (ListView) findViewById(R.id.list);
 	    registerForContextMenu(lv);
 	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
