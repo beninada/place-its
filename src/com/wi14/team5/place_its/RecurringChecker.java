@@ -1,34 +1,41 @@
 package com.wi14.team5.place_its;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class RecurringChecker extends Timer{
 	TimerTask timer;
 	AllPlaceIts allPlaceIts;
+	List<TimerTask> scheduledPlaceIts;
 	
 	public RecurringChecker(AllPlaceIts allPlaceIts) {
 		this.allPlaceIts = allPlaceIts;
-		if(allPlaceIts.getCOMPLETED() != null && !allPlaceIts.getCOMPLETED().isEmpty()) { 
-			for(PlaceIt placeit : allPlaceIts.getCOMPLETED().values()) {
-				checkRecurrance(placeit);
+		scheduledPlaceIts = new ArrayList<TimerTask>();
+		if(allPlaceIts != null) {
+			if(allPlaceIts.getCOMPLETED() != null && allPlaceIts.getCOMPLETED() != null && !allPlaceIts.getCOMPLETED().isEmpty()) { 
+				for(PlaceIt placeit : allPlaceIts.getCOMPLETED().values()) {
+					checkRecurrance(placeit);
+				}
+			}
+			if(allPlaceIts.getINPROGRESS() != null && allPlaceIts.getINPROGRESS() != null && !allPlaceIts.getINPROGRESS().isEmpty()) {
+				for(PlaceIt placeit : allPlaceIts.getINPROGRESS().values()) {
+					checkRecurrance(placeit);
+				}
 			}
 		}
-		if(allPlaceIts.getINPROGRESS() != null && !allPlaceIts.getINPROGRESS().isEmpty()) {
-			for(PlaceIt placeit : allPlaceIts.getINPROGRESS().values()) {
-				checkRecurrance(placeit);
-			}
-		}
-			
 	}
 	
 	public void checkRecurrance(PlaceIt placeit) {
 		if(placeit.getRecurrence() != 0) {
 			if(placeit.getRecurrence() == (byte)0x80) { //Test mode, repost by the minute
 				Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.MINUTE, 1);
-				this.schedule(new RepostPlaceItTask(allPlaceIts, placeit), cal.getTime());
+				cal.add(Calendar.SECOND, 10); // For TEST MODE
+				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit);
+				scheduledPlaceIts.add(task);
+				this.schedule(task, cal.getTime());
 			} else {
 				findNextDay(placeit);
 			}
@@ -67,8 +74,39 @@ public class RecurringChecker extends Timer{
 				cal.set(Calendar.HOUR_OF_DAY, 0);
 				cal.set(Calendar.MINUTE, 0);
 				cal.set(Calendar.SECOND, 0);
-				this.schedule(new RepostPlaceItTask(allPlaceIts, placeit), cal.getTime());
+				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit);
+				scheduledPlaceIts.add(task);
+				this.schedule(task, cal.getTime());
 			}
 		}
+	}
+	
+	int getSize() {
+		if(scheduledPlaceIts != null) {
+			return scheduledPlaceIts.size();
+		} else {
+			return 0;
+		}
+	}
+	
+	int getNumOfRecurrences() {
+		int count = 0;
+		if(allPlaceIts != null) {
+			if(allPlaceIts.getCOMPLETED() != null && allPlaceIts.getCOMPLETED() != null && !allPlaceIts.getCOMPLETED().isEmpty()) { 
+				for(PlaceIt placeit : allPlaceIts.getCOMPLETED().values()) {
+					if(placeit.getRecurrence() != 0) {
+						count++;
+					}
+				}
+			}
+			if(allPlaceIts.getINPROGRESS() != null && allPlaceIts.getINPROGRESS() != null && !allPlaceIts.getINPROGRESS().isEmpty()) {
+				for(PlaceIt placeit : allPlaceIts.getINPROGRESS().values()) {
+					if(placeit.getRecurrence() != 0) {
+						count++;
+					}
+				}
+			}
+		}
+		return count;
 	}
 }

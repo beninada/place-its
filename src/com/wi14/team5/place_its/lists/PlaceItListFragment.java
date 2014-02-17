@@ -2,14 +2,10 @@ package com.wi14.team5.place_its.lists;
 
 import java.util.ArrayList;
 
-import com.wi14.team5.place_its.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -19,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.wi14.team5.place_its.AllPlaceIts;
+import com.wi14.team5.place_its.MainActivity;
+import com.wi14.team5.place_its.MoreInfoActivity;
+import com.wi14.team5.place_its.PlaceIt;
+import com.wi14.team5.place_its.R;
 
 /**
  * A fragment that represents a list of Place-its.
@@ -35,6 +37,7 @@ public class PlaceItListFragment extends ListFragment {
 	private static boolean hasBeenCreated = false;
 	
 	OnAllPlaceItsModifiedListener mCallBack;
+	private Activity mainActivity;
 	
 	public interface OnAllPlaceItsModifiedListener {
 		public void onPlaceItsModified(String name, int listNum);
@@ -43,7 +46,7 @@ public class PlaceItListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+		mainActivity = activity;
 		try {
 			mCallBack = (OnAllPlaceItsModifiedListener) activity;
 		} catch (ClassCastException e) {
@@ -117,12 +120,43 @@ public class PlaceItListFragment extends ListFragment {
                         break;
                 }
             }
-
             return true;
-		}
-        
-        return super.onOptionsItemSelected(item);
+		} 
+		return super.onOptionsItemSelected(item);
+		
 	}
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+			
+		Intent intent;
+        String selection = namesAdapter.getItem(position);
+
+	    // handle presses on the action bar items
+	    AllPlaceIts api = ((MainActivity)mainActivity).getAllPlaceIts();
+	    PlaceIt placeit = null;
+	    if(api != null) {
+		    if(api.getTODO() != null && api.getTODO().containsKey(selection)) {
+		    	placeit = api.getTODO().get(selection);
+		    } else if(api.getINPROGRESS() != null && api.getINPROGRESS().containsKey(selection)) {
+		    	placeit = api.getINPROGRESS().get(selection);
+		    } else if(api.getCOMPLETED() != null && api.getCOMPLETED().containsKey(selection)) {
+		    	placeit = api.getCOMPLETED().get(selection);
+		    }
+	    } else {
+	    	return;
+	    }
+	    intent = new Intent(mainActivity, MoreInfoActivity.class);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		intent.putExtra(MainActivity.STATUS, 0);
+		intent.putExtra(MainActivity.LAT, placeit.getLat());
+		intent.putExtra(MainActivity.LNG, placeit.getLng());
+		intent.putExtra(MainActivity.RECURRENCE, placeit.getRecurrence());
+		intent.putExtra(MainActivity.TITLE, placeit.getName());
+		intent.putExtra(MainActivity.SNIPPET, placeit.getDescription());
+		startActivity(intent);
+	          
+	    }
 	
 	public ArrayAdapter<String> getNamesAdapter() {
 		return namesAdapter;

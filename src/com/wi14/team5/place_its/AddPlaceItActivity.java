@@ -245,7 +245,7 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 				        	recurrence = (byte)0x7F;
 				        }
 				        else if (radioTest.isChecked()) {
-				        	repeat.setText("TEST MODE");
+				        	repeat.setText("10 Seconds");
 				        	//10000000
 				        	recurrence = (byte)0x80;
 				        }
