@@ -9,12 +9,12 @@ import java.util.Timer;
 public class SnoozePlaceIt extends Timer {
 	AllPlaceIts allPlaceIts;
 	
-	public SnoozePlaceIt(AllPlaceIts allPlaceIts, PlaceIt placeit) {
+	public SnoozePlaceIt(AllPlaceIts allPlaceIts, PlaceIt placeit, MainActivity activity) {
 		this.allPlaceIts = allPlaceIts;
 
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.SECOND, 10); // normally 45 minutes
 
-		this.schedule(new RepostPlaceItTask(allPlaceIts, placeit), cal.getTime());
+		this.schedule(new RepostPlaceItTask(allPlaceIts, placeit, activity), cal.getTime());
 	}
 }

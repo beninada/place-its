@@ -13,9 +13,11 @@ public class RecurringChecker extends Timer {
 	TimerTask timer;
 	AllPlaceIts allPlaceIts;
 	List<TimerTask> scheduledPlaceIts;
+	MainActivity activity;
 	
-	public RecurringChecker(AllPlaceIts allPlaceIts) {
+	public RecurringChecker(AllPlaceIts allPlaceIts, MainActivity activity) {
 		this.allPlaceIts = allPlaceIts;
+		this.activity = activity;
 		scheduledPlaceIts = new ArrayList<TimerTask>();
 		if(allPlaceIts != null) {
 			if(allPlaceIts.getCOMPLETED() != null && allPlaceIts.getCOMPLETED() != null && !allPlaceIts.getCOMPLETED().isEmpty()) { 
@@ -36,7 +38,7 @@ public class RecurringChecker extends Timer {
 			if(placeit.getRecurrence() == (byte)0x80) { //Test mode, repost by the minute
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.SECOND, 10); // For TEST MODE
-				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit);
+				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit, activity);
 				scheduledPlaceIts.add(task);
 				this.schedule(task, cal.getTime());
 			} else {
@@ -77,7 +79,7 @@ public class RecurringChecker extends Timer {
 				cal.set(Calendar.HOUR_OF_DAY, 0);
 				cal.set(Calendar.MINUTE, 0);
 				cal.set(Calendar.SECOND, 0);
-				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit);
+				RepostPlaceItTask task = new RepostPlaceItTask(allPlaceIts, placeit, activity);
 				scheduledPlaceIts.add(task);
 				this.schedule(task, cal.getTime());
 			}

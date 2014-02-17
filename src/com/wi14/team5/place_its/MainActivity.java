@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity
 			gpsManager = new GPSManager(this, allPlaceIts);
 		}
 
-		recurringScheduler = new RecurringChecker(allPlaceIts);
+		recurringScheduler = new RecurringChecker(allPlaceIts, this);
 	}
 	
 	/**
@@ -222,7 +222,7 @@ public class MainActivity extends FragmentActivity
 		super.onResume();
 		if(recurringScheduler.getSize() <= recurringScheduler.getNumOfRecurrences()) {
 			recurringScheduler.cancel();
-			recurringScheduler = new RecurringChecker(allPlaceIts);
+			recurringScheduler = new RecurringChecker(allPlaceIts, this);
 		}
 	}
 
@@ -233,14 +233,17 @@ public class MainActivity extends FragmentActivity
 		} else {
 			allPlaceIts.updatePlaceItByName(name, curr, dest);
 		}
-		
-		//lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
-		//lpAdapter.notifyDataSetChanged();
 
+		refreshLists(curr);
+	}
+	
+	public void refreshLists(int current) {
 		Intent intent = new Intent(this, this.getClass());
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("Tab", curr);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("Tab", current);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 
 	public AllPlaceIts getAllPlaceIts() {
