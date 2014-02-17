@@ -33,6 +33,27 @@ public class AllPlaceIts extends Observable{
 		if(status == 1) {placeitsINPROGRESS.remove(name);}
 		if(status == 2) {placeitsCOMPLETED.remove(name);}
 	}
+
+	public void updatePlaceItByName(String name, int curr, int dest) {
+		PlaceIt p = null;
+		if(curr == 0) { p = placeitsTODO.remove(name);}
+		if(curr == 1) { p = placeitsINPROGRESS.remove(name);}
+		if(curr == 2) { p = placeitsCOMPLETED.remove(name);}
+		
+		p.setStatus(dest);
+		
+		switch (dest) {
+            case 0:
+            	placeitsTODO.put(name, p);
+                break;
+            case 1:
+            	placeitsINPROGRESS.put(name, p);
+                break;
+            case 2:
+            	placeitsCOMPLETED.put(name, p);
+                break;
+		}
+	}
 	
 	public void updatePlaceIt(PlaceIt p, int toStatus){
 		if(p.getStatus() == 0) {placeitsTODO.remove(p.getName());}
@@ -49,5 +70,4 @@ public class AllPlaceIts extends Observable{
 	public HashMap<String, PlaceIt> getTODO()		{return this.placeitsTODO;}
 	public HashMap<String, PlaceIt> getINPROGRESS()	{return this.placeitsINPROGRESS;}
 	public HashMap<String, PlaceIt> getCOMPLETED()	{return this.placeitsCOMPLETED;}
-	
 }

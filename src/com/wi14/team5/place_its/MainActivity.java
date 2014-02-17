@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */
-	private static ListPagerAdapter lpAdapter;
+	private ListPagerAdapter lpAdapter;
 
 	/**
 	 * The ViewPager that will display the three Place-it lists.
@@ -207,8 +207,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	@Override
-	public void onPlaceItsModified(String name, int listNum) {
-		allPlaceIts.removePlaceIt(name, listNum);
+	public void onPlaceItsModified(String name, int curr, int dest, boolean remove) {
+		if (remove) {
+			allPlaceIts.removePlaceIt(name, curr);
+		} else {
+			allPlaceIts.updatePlaceItByName(name, curr, dest);
+		}
+		
+		lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+		lpAdapter.notifyDataSetChanged();
 	}
-
 }

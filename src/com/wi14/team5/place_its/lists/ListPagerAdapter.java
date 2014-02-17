@@ -3,6 +3,7 @@ package com.wi14.team5.place_its.lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.wi14.team5.place_its.AllPlaceIts;
 import com.wi14.team5.place_its.PlaceIt;
 
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 /**
  * A FragmentPagerAdapter that returns fragments corresponding to
@@ -23,18 +23,19 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
 	private HashMap<String, PlaceIt> todo;
 	private HashMap<String, PlaceIt> inProgress;
 	private HashMap<String, PlaceIt> completed;
+	
+	private Fragment[] plf = new Fragment[3];
 
 	/**
 	 * Prepares the adapter for building fragments.
-	 * @param fm The fragment manager for the main activity.
+	 * @param fragmentManager The fragment manager for the main activity.
 	 * @param allPlaceIts The PlaceIts to fill each list up with,
 	 *		null if there are no PlaceIts to add.
 	 */
-    public ListPagerAdapter(FragmentManager fm, AllPlaceIts allPlaceIts) {
-        super(fm);
+    public ListPagerAdapter(FragmentManager fragmentManager, AllPlaceIts allPlaceIts) {
+        super(fragmentManager);
                
         if (allPlaceIts != null) {
-        	Log.d("ListPagerAdapter", "allPlaceIts being used to construct an lpa");
             todo = allPlaceIts.getTODO();
             inProgress = allPlaceIts.getINPROGRESS();
             completed = allPlaceIts.getCOMPLETED();
@@ -82,12 +83,12 @@ public class ListPagerAdapter extends FragmentPagerAdapter {
         args.putStringArrayList(PlaceItListFragment.NAMES, names);
         args.putInt(PlaceItListFragment.LIST_NUM, listNum);
 
-    	Fragment listFragment = new PlaceItListFragment();
-        listFragment.setArguments(args);
+    	plf[listNum] = new PlaceItListFragment();
+        plf[listNum].setArguments(args);
 
-        return listFragment;
+        return plf[listNum];
     }
-
+    
     /**
      * Gets the title for the tab corresponding to the parameter list number.
      */

@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import com.wi14.team5.place_its.R;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -34,10 +31,10 @@ public class PlaceItListFragment extends ListFragment {
 	
 	private static boolean hasBeenCreated = false;
 	
-	OnAllPlaceItsModifiedListener mCallBack;
+	private OnAllPlaceItsModifiedListener mCallBack;
 	
 	public interface OnAllPlaceItsModifiedListener {
-		public void onPlaceItsModified(String name, int listNum);
+		public void onPlaceItsModified(String name, int curr, int dest, boolean remove);
 	}
 	
 	@Override
@@ -102,20 +99,25 @@ public class PlaceItListFragment extends ListFragment {
             int id = item.getItemId();
 
             if (id != R.id.menu_item_cancel) {
-                namesAdapter.remove(selection);
-                namesAdapter.notifyDataSetChanged();
+                namesAdapter.remove(selection); // remove selection from our list
 
                 switch (id) {
                     case R.id.menu_item_todo:
-                    	mCallBack.onPlaceItsModified(selection, listNum);
+                    	// call back to allPlaceIts in MainActivity
+                    	mCallBack.onPlaceItsModified(selection, listNum, 0, false);
                         break;
                     case R.id.menu_item_inprogress:
+                    	mCallBack.onPlaceItsModified(selection, listNum, 1, false);
                         break;
                     case R.id.menu_item_completed:
+                    	mCallBack.onPlaceItsModified(selection, listNum, 2, false);
                         break;
                     case R.id.menu_item_delete:
+                    	mCallBack.onPlaceItsModified(selection, listNum, -1, true);
                         break;
                 }
+                
+                namesAdapter.notifyDataSetChanged();
             }
 
             return true;
@@ -124,6 +126,9 @@ public class PlaceItListFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Gets the array adapter for this list fragment.
+	 */
 	public ArrayAdapter<String> getNamesAdapter() {
 		return namesAdapter;
 	}
