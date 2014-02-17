@@ -21,6 +21,7 @@ import com.wi14.team5.place_its.MainActivity;
 import com.wi14.team5.place_its.MoreInfoActivity;
 import com.wi14.team5.place_its.PlaceIt;
 import com.wi14.team5.place_its.R;
+import com.wi14.team5.place_its.SnoozePlaceIt;
 
 /**
  * A fragment that represents a list of Place-its.
@@ -90,7 +91,11 @@ public class PlaceItListFragment extends ListFragment {
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		getActivity().getMenuInflater().inflate(R.menu.modify_list_context, menu);
+		if(listNum == 1) {
+			getActivity().getMenuInflater().inflate(R.menu.modify_list_context_snooze, menu);
+		} else {
+			getActivity().getMenuInflater().inflate(R.menu.modify_list_context, menu);
+		}
 	}
 	
 	/**
@@ -119,7 +124,19 @@ public class PlaceItListFragment extends ListFragment {
                     	mCallBack.onPlaceItsModified(selection, listNum, 2, false);
                         break;
                     case R.id.menu_item_snooze:
-                    	mCallBack.onPlaceItsModified(selection, listNum, 0, false);
+                	    // handle presses on the action bar items
+                	    AllPlaceIts api = ((MainActivity)mainActivity).getAllPlaceIts();
+                	    PlaceIt placeit = null;
+                	    if(api != null) {
+                		    if(api.getTODO() != null && api.getTODO().containsKey(selection)) {
+                		    	placeit = api.getTODO().get(selection);
+                		    } else if(api.getINPROGRESS() != null && api.getINPROGRESS().containsKey(selection)) {
+                		    	placeit = api.getINPROGRESS().get(selection);
+                		    } else if(api.getCOMPLETED() != null && api.getCOMPLETED().containsKey(selection)) {
+                		    	placeit = api.getCOMPLETED().get(selection);
+                		    }
+                		    new SnoozePlaceIt(api, placeit, (MainActivity)mainActivity);
+                	    }
                     	break;
                     case R.id.menu_item_delete:
                     	mCallBack.onPlaceItsModified(selection, listNum, -1, true);

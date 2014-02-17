@@ -9,15 +9,18 @@ public class RepostPlaceItTask extends TimerTask {
 
 	private AllPlaceIts api;
 	private PlaceIt placeit;
+	private MainActivity activity;
 	
-	public RepostPlaceItTask(AllPlaceIts api, PlaceIt placeit) {
+	public RepostPlaceItTask(AllPlaceIts api, PlaceIt placeit, MainActivity act) {
 		this.api = api;
 		this.placeit = placeit;
+		activity = act;
 	}
 	
 	@Override
 	public void run() {
-		api.updatePlaceIt(placeit, 0);		
+		api.updatePlaceIt(placeit, 0);	
+		activity.refreshLists(0);
 	}
 
 }
