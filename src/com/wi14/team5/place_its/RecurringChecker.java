@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RecurringChecker extends Timer{
+/**
+ * Provides methods for parsing/checking the recurring field.
+ */
+public class RecurringChecker extends Timer {
 	TimerTask timer;
 	AllPlaceIts allPlaceIts;
 	List<TimerTask> scheduledPlaceIts;

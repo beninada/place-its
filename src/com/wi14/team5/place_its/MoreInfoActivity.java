@@ -15,14 +15,13 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * An activity that displays more information about one place-it
+ */
 public class MoreInfoActivity extends Activity   {
-	
-	
 	private GoogleMap mMap;
-
 	private TextView title;
 	private TextView notes;
-
 
 	double lat = 0;
 	double lng = 0;
@@ -43,35 +42,25 @@ public class MoreInfoActivity extends Activity   {
         String placeTitle = intent.getStringExtra(MainActivity.TITLE);
         String snippet = intent.getStringExtra(MainActivity.SNIPPET);
 
-		
-
 		title = (TextView) findViewById(R.id.textViewPlaceTitle);
 		title.setText(placeTitle);
 		notes = (TextView) findViewById(R.id.textViewNotesContent);
 		notes.setText(snippet);
-		((TextView)findViewById(R.id.textViewLocation1)).setText(Double.toString(lat) + ", " + Double.toString(lng));
+		((TextView)findViewById(R.id.textViewLocation1)).setText(Double.toString(lat)
+				+ ", " + Double.toString(lng));
 		if(recurrence != 0) {
 			((TextView)findViewById(R.id.textViewInfoRepeat1)).setText("Yes");
 		} else {
 			((TextView)findViewById(R.id.textViewInfoRepeat1)).setText("No");
 		}
 		
-		//address = (EditText) findViewById(R.id.editPlaceitAddress);
-		//address.setOnFocusChangeListener(this);
-		
-
 		centerMapOnMyLocation();
-
-	    
+		
 	    mMap.addMarker(new MarkerOptions() 
 		.position(new LatLng(lat, lng))
 		.title(placeTitle)
 		.snippet(snippet));		
 	}
-	
-	
-	
-
 	
 	private void setUpMapIfNeeded() {
 		// Do a null check to confirm that we have not already instantiated the map. 
@@ -89,7 +78,8 @@ public class MoreInfoActivity extends Activity   {
 		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        Location location = locationManager.getLastKnownLocation(
+        		locationManager.getBestProvider(criteria, false));
         location.setLatitude(lat);
         location.setLongitude(lng);
         if (location != null) {
@@ -97,5 +87,4 @@ public class MoreInfoActivity extends Activity   {
                     new LatLng(location.getLatitude(), location.getLongitude()), 16));
         }
 	}
-
 }

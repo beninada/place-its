@@ -27,6 +27,7 @@
     <string name="todo">MARK AS TO DO</string>
     <string name="inprogress">MARK AS IN PROGRESS</string>
     <string name="completed">MARK AS COMPLETED</string>
+    <string name="snooze">SNOOZE</string>
     <string name="delete">DELETE</string>
     <string name="cancel">CANCEL</string>
 

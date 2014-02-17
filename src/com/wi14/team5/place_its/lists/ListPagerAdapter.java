@@ -3,7 +3,6 @@ package com.wi14.team5.place_its.lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.wi14.team5.place_its.AllPlaceIts;
 import com.wi14.team5.place_its.PlaceIt;
 
@@ -17,7 +16,6 @@ import android.support.v4.app.FragmentPagerAdapter;
  * one of the three Place-it lists.
  */
 public class ListPagerAdapter extends FragmentPagerAdapter {
-	
 	private final static int NUM_OF_LISTS = 3;
 	
 	private HashMap<String, PlaceIt> todo;

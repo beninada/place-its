@@ -35,7 +35,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class AddPlaceItActivity extends Activity implements OnMapClickListener, OnCheckedChangeListener, OnFocusChangeListener {
+public class AddPlaceItActivity extends Activity
+	implements OnMapClickListener, OnCheckedChangeListener, OnFocusChangeListener {
+
 	private GoogleMap mMap;
 	private Marker added;
 
@@ -117,7 +119,6 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 				}
 			}
 			catch (IOException e) {
-				//something didn't work
 			}
 	}
 	
@@ -150,7 +151,8 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 			startActivity(intent);
 		}
 		else {
-			Toast.makeText(AddPlaceItActivity.this, "Place-it must have a title", Toast.LENGTH_LONG).show();
+			Toast.makeText(AddPlaceItActivity.this, "Place-it must have a title",
+					Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -187,8 +189,8 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
 	        radioDaily = (RadioButton) d.findViewById(R.id.radioButtonDaily);
 	        radioTest = (RadioButton) d.findViewById(R.id.radioButtonTest);
 
-
-	        radioWeekly.setOnCheckedChangeListener(this); // implement OnCheckedChangeListener to the current class
+	        // implement OnCheckedChangeListener to the current class
+	        radioWeekly.setOnCheckedChangeListener(this); 
 	        radioDaily.setOnCheckedChangeListener(this);
 	        radioTest.setOnCheckedChangeListener(this);
 	        
@@ -318,7 +320,8 @@ public class AddPlaceItActivity extends Activity implements OnMapClickListener, 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        Location location = locationManager.getLastKnownLocation(
+        		locationManager.getBestProvider(criteria, false));
         if (location != null) {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude()), 16));

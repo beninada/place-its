@@ -42,7 +42,6 @@
                 android:minLines="1" >
 
                 <requestFocus />
-
                 <requestFocus />
 
             </EditText>
@@ -131,5 +130,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

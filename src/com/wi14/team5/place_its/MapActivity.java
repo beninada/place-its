@@ -99,7 +99,8 @@ public class MapActivity extends Activity {
 	private void centerMapOnMyLocation() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        Location location = locationManager.getLastKnownLocation(
+        		locationManager.getBestProvider(criteria, false));
 
         if (location != null) {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(

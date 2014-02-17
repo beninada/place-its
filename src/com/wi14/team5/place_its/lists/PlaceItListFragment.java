@@ -118,6 +118,9 @@ public class PlaceItListFragment extends ListFragment {
                     case R.id.menu_item_completed:
                     	mCallBack.onPlaceItsModified(selection, listNum, 2, false);
                         break;
+                    case R.id.menu_item_snooze:
+                    	mCallBack.onPlaceItsModified(selection, listNum, 0, false);
+                    	break;
                     case R.id.menu_item_delete:
                     	mCallBack.onPlaceItsModified(selection, listNum, -1, true);
                         break;
@@ -150,6 +153,7 @@ public class PlaceItListFragment extends ListFragment {
 	    } else {
 	    	return;
 	    }
+
 	    intent = new Intent(mainActivity, MoreInfoActivity.class);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -159,9 +163,9 @@ public class PlaceItListFragment extends ListFragment {
 		intent.putExtra(MainActivity.RECURRENCE, placeit.getRecurrence());
 		intent.putExtra(MainActivity.TITLE, placeit.getName());
 		intent.putExtra(MainActivity.SNIPPET, placeit.getDescription());
+
 		startActivity(intent);
-	          
-	    }
+	}
 	
 	/**
 	 * Gets the array adapter for this list fragment.

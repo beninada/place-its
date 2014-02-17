@@ -2,7 +2,10 @@ package com.wi14.team5.place_its;
 
 import java.util.TimerTask;
 
-public class RepostPlaceItTask extends TimerTask{
+/**
+ * A TimerTask for reposting a place-it.
+ */
+public class RepostPlaceItTask extends TimerTask {
 
 	private AllPlaceIts api;
 	private PlaceIt placeit;

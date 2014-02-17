@@ -23,7 +23,9 @@ import android.widget.ListView;
  * Completed. They are displayed in tabs that the user can select/scroll
  * through.
  */
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, OnAllPlaceItsModifiedListener {	
+public class MainActivity extends FragmentActivity
+		implements ActionBar.TabListener, OnAllPlaceItsModifiedListener {	
+
 	/**
 	 * A PagerAdapter that provides the Place-it list fragments.
 	 */

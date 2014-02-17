@@ -22,6 +22,7 @@
 	    android:id="@+id/firstRadioGroup"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" >
+
                 <RadioButton
                     android:id="@+id/radioButtonWeekly"
                     android:layout_width="wrap_content"
@@ -102,13 +103,16 @@
                         android:minWidth="20dp"
                         android:textOff="@string/buttonSun"
                         android:textOn="@string/buttonSun" />
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
 <RadioGroup
     android:id="@+id/secondRadioGroup"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
+
         <RadioButton
             android:id="@+id/radioButtonDaily"
             android:layout_width="wrap_content"
