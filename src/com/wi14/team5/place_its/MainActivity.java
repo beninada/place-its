@@ -44,6 +44,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * GPSManager manages gps notification functions of place its
      */
     private static GPSManager gpsManager;
+    
+    /**
+     * RecurringChecker handles scheduling and reposting place its
+     */
+    private static RecurringChecker recurringScheduler;
 
     /**
      * Contains every instantiated PlaceIt.
@@ -100,7 +105,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			gpsManager = new GPSManager(this, allPlaceIts);
 		}
 
-		RecurringChecker recurringScheduler = new RecurringChecker(allPlaceIts);
+		recurringScheduler = new RecurringChecker(allPlaceIts);
 	}
 	
 	/**
@@ -205,6 +210,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		sqlh.addAllPlaceIts(allPlaceIts);
 		Log.i("After write, database has", new Integer(sqlh.getPlaceItCount()).toString());
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(recurringScheduler.getSize() <= recurringScheduler.getNumOfRecurrences()) {
+			recurringScheduler.cancel();
+			recurringScheduler = new RecurringChecker(allPlaceIts);
+		}
+	}
 
 	@Override
 	public void onPlaceItsModified(String name, int curr, int dest, boolean remove) {
@@ -216,5 +230,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		
 		lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
 		lpAdapter.notifyDataSetChanged();
+	}
+
+	public AllPlaceIts getAllPlaceIts() {
+		return allPlaceIts;
 	}
 }

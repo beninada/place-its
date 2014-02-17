@@ -19,7 +19,7 @@
     <string name="title_activity_recurring_placeit">RecurringPlaceitActivity</string>
     <string name="radioWeekly">Weekly</string>
     <string name="radioDaily">Daily</string>
-    <string name="radioTest">Test mode</string>
+    <string name="radioTest">10 Seconds</string>
     <string name="buttonOk">OK</string>
     <string name="action_new">New Place-it</string>
     <string name="action_map">View map</string>

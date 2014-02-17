@@ -53,38 +53,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:padding="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:text="Latitude, Longitude"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewLocation1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="TextView"
                 android:textSize="20sp" />
 
-            <LinearLayout
-                android:id="@+id/LinearLayoutTime"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textViewInfoRepeat0"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:padding="10dp" >
-
-                <TextView
-                    android:id="@+id/textViewCreatedOn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="@string/textViewCreatedOn"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/textViewTime1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:text="TextView"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:layout_weight="50"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Recurring"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textViewInfoRepeat"
+                android:id="@+id/textViewInfoRepeat1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
