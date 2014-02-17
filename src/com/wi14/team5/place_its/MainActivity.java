@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewDebug.FlagToString;
 import android.widget.ListView;
 
 /**
@@ -55,6 +56,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
 	private static AllPlaceIts allPlaceIts;
 
+	private Bundle bundle;
 	/**
 	 * Specifies whether or not onCreate() has been called yet in this life cycle.
 	 */
@@ -72,7 +74,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		bundle = savedInstanceState;
         Intent intent = getIntent();
 
 		if (!hasBeenCreated) {
@@ -136,8 +138,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 		
 		//So notifications go to the In Progress tab
-	    int tab = intent.getIntExtra("Tab", 0);
-	    mViewPager.setCurrentItem(tab);
+		if(intent != null) {
+		    int tab = intent.getIntExtra("Tab", 0);
+		    mViewPager.setCurrentItem(tab);
+		}
 		
 		// register the list for context menu on hold down.
 	    ListView lv = (ListView) findViewById(R.id.list);
@@ -228,8 +232,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			allPlaceIts.updatePlaceItByName(name, curr, dest);
 		}
 		
-		lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
-		lpAdapter.notifyDataSetChanged();
+		//lpAdapter = new ListPagerAdapter(getSupportFragmentManager(), allPlaceIts);
+		//lpAdapter.notifyDataSetChanged();
+
+		Intent intent = new Intent(this, this.getClass());
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.putExtra("Tab", curr);
+		startActivity(intent);
 	}
 
 	public AllPlaceIts getAllPlaceIts() {
