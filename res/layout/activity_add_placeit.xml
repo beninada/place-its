@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
-    android:textAlignment="center" >
+    android:textAlignment="center"
+    android:windowSoftInputMode="stateHidden|adjustResize">
     
     <fragment
         android:id="@+id/map"
