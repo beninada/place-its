@@ -127,5 +127,9 @@ public static final int gpsNotifyID = 1337;
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {	
 	}
+	
+	public int getNotificationID() {
+		return this.ID;
+	}
 
 }
